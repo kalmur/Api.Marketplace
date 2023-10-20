@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="EntityConfiguration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Api.Marketplace.Application\Api.Marketplace.Application.csproj" />
   </ItemGroup>
 

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Marketplace.WebApi", "Api.Marketplace\Api.Marketplace.WebApi.csproj", "{01CB3BC5-C8B0-4E60-93CD-D3613AE183A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Marketplace.WebApi", "Api.Marketplace\Api.Marketplace.WebApi.csproj", "{01CB3BC5-C8B0-4E60-93CD-D3613AE183A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Marketplace.Application", "Api.Marketplace.Application\Api.Marketplace.Application.csproj", "{DB62B996-2D84-46AB-9ADE-3CD67EB266ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Marketplace.Application", "Api.Marketplace.Application\Api.Marketplace.Application.csproj", "{DB62B996-2D84-46AB-9ADE-3CD67EB266ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Marketplace.Persistence", "Api.Marketplace.Persistence\Api.Marketplace.Persistence.csproj", "{9D482778-55E8-4EB3-8B90-0F4F7768BA84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Marketplace.Persistence", "Api.Marketplace.Persistence\Api.Marketplace.Persistence.csproj", "{9D482778-55E8-4EB3-8B90-0F4F7768BA84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
