@@ -1,4 +1,5 @@
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+using Api.Marketplace.Application;
+using Api.Marketplace.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,22 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("");
-        });
-});
+builder.Services
+    .AddApplication()
+    .AddPersistence(builder.Configuration);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
-
-//app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 

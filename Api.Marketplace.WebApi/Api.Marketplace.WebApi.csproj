@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.Marketplace.Application\Api.Marketplace.Application.csproj" />
+    <ProjectReference Include="..\Api.Marketplace.Persistence\Api.Marketplace.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
