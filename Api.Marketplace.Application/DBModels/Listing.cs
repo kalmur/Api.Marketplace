@@ -28,13 +28,13 @@ public class Listing : AuditableEntity
     public string PostCode { get; set; }
     public DateTime? AvailableFrom { get; set; }
 
-    public virtual User User
+    public virtual User? User
     {
         get => _user ?? throw new ArgumentNullException(nameof(User));
         set => _user = value;
     }
 
-    public virtual City City
+    public virtual City? City
     {
         get => _city ?? throw new ArgumentNullException(nameof(City));
         set => _city = value;

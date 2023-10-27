@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Marketplace.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231020090916_InitialMigration")]
+    [Migration("20231027121220_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -55,13 +55,17 @@ namespace Api.Marketplace.Persistence.Migrations
             modelBuilder.Entity("Api.Marketplace.Application.DBModels.Listing", b =>
                 {
                     b.Property<int>("ListingId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListingId"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("AvailableFrom")
+                    b.Property<DateTime?>("AvailableFrom")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Category")
@@ -102,6 +106,8 @@ namespace Api.Marketplace.Persistence.Migrations
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Listing", (string)null);
                 });
 
@@ -132,7 +138,7 @@ namespace Api.Marketplace.Persistence.Migrations
 
                     b.HasOne("Api.Marketplace.Application.DBModels.User", "User")
                         .WithMany("Listings")
-                        .HasForeignKey("ListingId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

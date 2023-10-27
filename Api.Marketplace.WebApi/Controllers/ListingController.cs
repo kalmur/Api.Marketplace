@@ -21,16 +21,18 @@ public class ListingController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateListingResponseDto))]
-    public async Task<IActionResult> CreateListing([FromBody] CreateListingRequest request)
+    public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
     {
         var listing = await _mediator.Send(new CreateListingRequest(
-            request.SellLease, request.Name, request.Category, request.Description, request.Price, request.Address,
-            request.PostCode));
+            request.UserId, request.CityId, request.SellLease, request.Name, request.Category, request.Description, request.Price, request.Address, request.PostCode
+            ));
 
         _logger.LogInformation("Listing created.");
 
+        // CreateListingDto - add DTO instead of Request
+
         return Created(
             "api/listing",
-            listing.ToDto());
+            listing.ListingId);
     }
 }
