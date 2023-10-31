@@ -12,6 +12,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ZiggyCreatures.FusionCache" Version="0.23.0" />
   </ItemGroup>
@@ -20,7 +22,6 @@
     <Folder Include="Workflows\Listing\GetListingsByUserId\" />
     <Folder Include="Workflows\Listing\DeleteListing\" />
     <Folder Include="Workflows\Listing\UpdateListing\" />
-    <Folder Include="Workflows\User\GetAllUsers\" />
   </ItemGroup>
 
 </Project>

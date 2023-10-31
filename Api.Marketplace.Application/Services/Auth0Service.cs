@@ -57,7 +57,9 @@ public class Auth0Service : IIdentityProviderService
         return new AccessTokenResponse();
     }
 
-    public async Task<IReadOnlyCollection<Auth0User>> GetUsersInformationAsync(IReadOnlyCollection<string> userIds, CancellationToken token = default)
+    public async Task<IReadOnlyCollection<Auth0User>> GetUsersInformationAsync(
+        IReadOnlyCollection<string> userIds, 
+        CancellationToken token = default)
     {
         var client = _httpClient.CreateClient(ClientNames.Auth0);
 

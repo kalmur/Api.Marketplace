@@ -1,6 +1,7 @@
 ﻿using Api.Marketplace.Application.Interfaces.Services;
 using Api.Marketplace.Application.Options;
 using Api.Marketplace.Application.Services;
+using Api.Marketplace.Application.Services.Cache;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,10 +19,13 @@ public static class DependencyInjection
 
         services.Configure<Auth0Options>(configuration.GetSection(Auth0Options.SectionName));
 
+        RegisterAuth0(services, configuration);
+        Auth0Authentication(services, configuration);
+
         return services;
     }
 
-    private static IServiceCollection AddAuth0(
+    private static IServiceCollection RegisterAuth0(
         IServiceCollection services,
         IConfiguration configuration)
     {
@@ -35,10 +39,24 @@ public static class DependencyInjection
         services
             .AddHttpClient(ClientNames.Auth0, client =>
             {
-                client.BaseAddress = new Uri(options!.)
-            })
+                client.BaseAddress = new Uri(options!.Domain!);
+            });
 
         return services;
+    }
+
+    private static void AddAuth0Authentication(
+        this IServiceCollection services,
+        Action<Auth0Options> config)
+    {
+        services.AddOptions<Auth0Options>()
+            .Configure(config)
+            .Validate(x => !string.IsNullOrWhiteSpace(x.ClientId) && !string.IsNullOrWhiteSpace(x.Domain) && !string.IsNullOrWhiteSpace(x.ClientSecret),
+                "Auth0 Configuration cannot have empty values");
+
+        services.AddFusionCache(Constants.FusionCacheInstance);
+
+        services.AddScoped<IAuth0TokenCache, Auth0TokenCache>();
     }
 
     private static void Auth0Authentication(

@@ -10,8 +10,8 @@ public class Auth0Options
     public string? Audience { get; set; }
     public string? AuthenticationEndpoint { get; set; }
     public string? GetUsersEndpoint { get; set; }
+    public string? UsersQuery { get; set; }
     public string? FieldsToInclude { get; set;}
     public string? IncludeFields { get; set;}
     public string? SearchEngine { get; set; }
-    public string? UsersQuery { get; set; }
 }

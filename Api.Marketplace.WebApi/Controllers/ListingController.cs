@@ -1,6 +1,5 @@
 ﻿using Api.Marketplace.Application.Workflows.Listing.CreateListing;
 using Api.Marketplace.WebApi.DTOs;
-using Api.Marketplace.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,8 +23,8 @@ public class ListingController : ControllerBase
     public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
     {
         var listing = await _mediator.Send(new CreateListingRequest(
-            request.UserId, request.CityId, request.SellLease, request.Name, request.Category, request.Description, request.Price, request.Address, request.PostCode
-            ));
+            request.UserId, request.CityId, request.SellLease, request.Name, request.Category, 
+            request.Description, request.Price, request.Address, request.PostCode));
 
         _logger.LogInformation("Listing created.");
 
