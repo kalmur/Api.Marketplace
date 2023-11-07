@@ -3,76 +3,179 @@ using Api.Marketplace.Application.Models;
 using Api.Marketplace.Application.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System.Text;
+using Auth0.AuthenticationApi;
+using Api.Marketplace.Application.DTOs;
+using Auth0.Core.Exceptions;
+using Auth0.ManagementApi.Models;
+using System.Net;
 
 namespace Api.Marketplace.Application.Services;
 
+using Auth0User = Auth0.ManagementApi.Models.User;
+using MarketplaceUser = Models.User;
+
 public class Auth0Service : IIdentityProviderService
 {
+    private const string ProviderName = "Auth0";
     private readonly ILogger<Auth0Service> _logger;
+    private readonly IAuthenticationApiClient _authenticationClient;
     private readonly IAuth0QueryBuilder _queryBuilder;
-    private readonly IHttpClientFactory _httpClient;
+    private readonly IAuth0UsersClient _usersClient;
     private readonly Auth0Options _options;
 
     public Auth0Service(
-        ILogger<Auth0Service> logger, 
-        IAuth0QueryBuilder queryBuilder, 
-        IHttpClientFactory httpClient, 
+        ILogger<Auth0Service> logger,
+        IAuthenticationApiClient authenticationClient,
+        IAuth0QueryBuilder queryBuilder,
+        IAuth0UsersClient usersClient,
         IOptions<Auth0Options> options
     )
     {
         _logger = logger;
+        _authenticationClient = authenticationClient;
         _queryBuilder = queryBuilder;
-        _httpClient = httpClient;
+        _usersClient = usersClient;
         _options = options.Value;
     }
 
-    public async Task<AccessTokenResponse> GetAccessTokenAsync(CancellationToken token = default)
+    public virtual async Task<ApiResult<MarketplaceUser>> CreateUserAsync(CreateUserDto user)
     {
-        var client = _httpClient.CreateClient(ClientNames.Authentication);
-
-        var body = new Dictionary<string, string>
+        Auth0User auth0User;
+        try
         {
-            { "client_id", _options.ClientId! },
-            { "client_secret", _options.ClientSecret! },
-            { "audience", _options.Audience! },
-            { "grant_type", "client_credentials" }
-        };
-
-        var jsonBody = JsonConvert.SerializeObject(body);
-        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-        var response = await client.PostAsync($"{_options.AuthenticationEndpoint}", content, token);
-
-        var responseContent = await response.Content.ReadAsStringAsync(token);
-        var tokenObject = JsonConvert.DeserializeObject<AccessTokenResponse>(responseContent);
-
-        if (response.IsSuccessStatusCode && tokenObject is not null)
+            auth0User = await _usersClient.CreateAsync(new UserCreateRequest
+            {
+                Connection = _options.Connection,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                FullName = $"{user.FirstName} {user.LastName}",
+                UserMetadata = new Auth0MetaData
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                },
+                EmailVerified = true
+            }).ConfigureAwait(false);
+        }
+        catch (ErrorApiException e)
         {
-            _logger.LogInformation("Successfully retrieved the AccessToken");
-            return tokenObject;
+            return Failure<ApiResult<MarketplaceUser>>(e);
         }
 
-        return new AccessTokenResponse();
+        return Success(auth0User);
     }
 
-    public async Task<IReadOnlyCollection<Auth0User>> GetUsersInformationAsync(
-        IReadOnlyCollection<string> userIds, 
-        CancellationToken token = default)
+    public virtual async Task<ApiResult<MarketplaceUser>> UpdateUserAsync(string identityProviderId,
+        UpdateUserDto user)
     {
-        var client = _httpClient.CreateClient(ClientNames.Auth0);
-
-        var query = _queryBuilder.GenerateQueryString(userIds);
-
-        var response = await client.GetAsync($"{_options.GetUsersEndpoint}?{query}", token);
-
-        if (response.IsSuccessStatusCode)
+        Auth0User auth0User;
+        try
         {
-            var content = await response.Content.ReadAsStringAsync(token);
-            return JsonConvert.DeserializeObject<List<Auth0User>>(content)!;
+            auth0User = await _usersClient.UpdateAsync(identityProviderId, new UserUpdateRequest
+            {
+                Connection = _options.Connection,
+                ClientId = _options.ClientId,
+                Email = user.Email,
+                EmailVerified = true,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                FullName = $"{user.FirstName} {user.LastName}",
+                UserMetadata = new Auth0MetaData
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                }
+            }).ConfigureAwait(false);
+        }
+        catch (ErrorApiException e)
+        {
+            return Failure<ApiResult<MarketplaceUser>>(e);
         }
 
-        return new List<Auth0User>();
+        return Success(auth0User);
+    }
+
+    public async Task<ApiResult<MarketplaceUser>> GetUserAsync(string providerId)
+    {
+        Auth0User auth0User;
+        try
+        {
+            auth0User = await _usersClient.GetAsync(providerId).ConfigureAwait(false);
+        }
+        catch (ErrorApiException e)
+        {
+            return Failure<ApiResult<MarketplaceUser>>(e);
+        }
+
+        return Success(auth0User);
+    }
+
+    public async Task<ApiResult<IReadOnlyList<MarketplaceUser>>> GetUserByEmail(string email)
+    {
+        IList<Auth0User> auth0UserList;
+        try
+        {
+            auth0UserList = await _usersClient.GetUsersByEmailAsync(email.ToLowerInvariant())
+                .ConfigureAwait(false);
+        }
+        catch (ErrorApiException e)
+        {
+            return Failure<ApiResult<IReadOnlyList<MarketplaceUser>>>(e);
+        }
+
+        return Success(auth0UserList);
+    }
+
+    private static ApiResult<MarketplaceUser> Success(Auth0User auth0User = null)
+    {
+        var userMetadata = auth0User?.UserMetadata;
+        return new ApiResult<MarketplaceUser>
+        {
+            Succeeded = true,
+            StatusCode = HttpStatusCode.OK,
+            Item = auth0User != null
+                ? new MarketplaceUser
+                {
+                    FirstName = userMetadata?.FirstName,
+                    LastName = userMetadata?.LastName,
+                    Email = auth0User.Email,
+                    PhoneNumber = userMetadata?.PhoneNumber,
+                    Provider = ProviderName,
+                    ProviderSubjectId = auth0User.UserId,
+                }
+                : null
+        };
+    }
+
+    private static ApiResult<IReadOnlyList<MarketplaceUser>> Success(IEnumerable<Auth0User> auth0UserList)
+    {
+        return new ApiResult<IReadOnlyList<MarketplaceUser>>
+        {
+            Succeeded = true,
+            StatusCode = HttpStatusCode.OK,
+            Item = auth0UserList.Select(u => new MarketplaceUser
+            {
+                FirstName = u.UserMetadata?.FirstName,
+                LastName = u.UserMetadata?.LastName,
+                Email = u.Email,
+                PhoneNumber = u.UserMetadata?.PhoneNumber,
+                Provider = ProviderName,
+                ProviderSubjectId = u.UserId
+            }).ToList()
+        };
+    }
+
+    private static T Failure<T>(ErrorApiException e) where T : ApiResult, new()
+    {
+        Enum.TryParse<HttpStatusCode>(e.StatusCode.ToString(), out var statusCode);
+        return new T
+        {
+            Succeeded = false,
+            StatusCode = statusCode,
+            Message = e.ApiError.Message
+        };
     }
 }

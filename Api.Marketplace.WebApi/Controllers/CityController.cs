@@ -1,6 +1,5 @@
 ﻿using Api.Marketplace.Application.Workflows.City.CreateCity;
 using Api.Marketplace.WebApi.DTOs;
-using Api.Marketplace.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +31,6 @@ public class CityController : ControllerBase
 
         return Created(
             "api/city", 
-            city.ToDto());
+            city.CityId);
     }
 }

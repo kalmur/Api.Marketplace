@@ -1,7 +1,7 @@
 ﻿using Api.Marketplace.Application.Interfaces.Services;
 using Api.Marketplace.Application.Options;
 using Api.Marketplace.Application.Services;
-using Api.Marketplace.Application.Services.Cache;
+using Auth0Net.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,52 +17,27 @@ public static class DependencyInjection
 
         services.AddMediatR(config => config.RegisterServicesFromAssembly(currentAssembly));
 
+        RegisterAuth0Services(services, configuration);
+
+        return services;
+    }
+
+    private static void RegisterAuth0Services(IServiceCollection services, IConfiguration configuration)
+    {
         services.Configure<Auth0Options>(configuration.GetSection(Auth0Options.SectionName));
 
-        RegisterAuth0(services, configuration);
-        Auth0Authentication(services, configuration);
-
-        return services;
-    }
-
-    private static IServiceCollection RegisterAuth0(
-        IServiceCollection services,
-        IConfiguration configuration)
-    {
         var options = configuration.GetSection(Auth0Options.SectionName).Get<Auth0Options>();
 
-        services
-            .AddScoped<IIdentityProviderService, Auth0Service>()
-            .AddScoped<IAuth0QueryBuilder, Auth0QueryBuilder>()
-            .AddScoped<Auth0TokenHandler>();
+        services.AddScoped<IAuth0UsersClient, Auth0UsersClient>();
+        services.AddScoped<IIdentityProviderService, Auth0Service>();
+        services.AddScoped<IAuth0QueryBuilder, Auth0QueryBuilder>();
 
-        services
-            .AddHttpClient(ClientNames.Auth0, client =>
-            {
-                client.BaseAddress = new Uri(options!.Domain!);
-            });
-
-        return services;
-    }
-
-    private static void AddAuth0Authentication(
-        this IServiceCollection services,
-        Action<Auth0Options> config)
-    {
-        services.AddOptions<Auth0Options>()
-            .Configure(config)
-            .Validate(x => !string.IsNullOrWhiteSpace(x.ClientId) && !string.IsNullOrWhiteSpace(x.Domain) && !string.IsNullOrWhiteSpace(x.ClientSecret),
-                "Auth0 Configuration cannot have empty values");
-
-        services.AddFusionCache(Constants.FusionCacheInstance);
-
-        services.AddScoped<IAuth0TokenCache, Auth0TokenCache>();
-    }
-
-    private static void Auth0Authentication(
-        IServiceCollection services,
-        IConfiguration configuration)
-    {
-        var options = configuration.GetSection(Auth0Options.SectionName).Get<Auth0Options>();
+        services.AddAuth0AuthenticationClient(config =>
+        {
+            config.Domain = options!.Domain!;
+            config.ClientId = options.ClientId;
+            config.ClientSecret = options.ClientSecret;
+        });
+        services.AddAuth0ManagementClient().AddManagementAccessToken();
     }
 }
