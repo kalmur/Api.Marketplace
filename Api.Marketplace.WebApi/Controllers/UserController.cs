@@ -26,7 +26,11 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateUserResponseDto))]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserDto createUserDto)
     {
-        return await CreateNewUser(createUserDto);
+        var auth0User = await GetAuthUserOrCreate(createUserDto);
+
+        return !auth0User.Succeeded
+            ? StatusCode((int)auth0User.StatusCode, auth0User.Message)
+            : Ok(auth0User);
     }
 
     [HttpGet]
@@ -38,25 +42,15 @@ public class UserController : ControllerBase
         return Ok(response);
     }
 
-    private async Task<IActionResult> CreateNewUser(CreateUserDto user)
-    {
-        var identityProviderUser = await GetAuthUserOrCreate(user);
-
-        if (!identityProviderUser.Succeeded)
-            return StatusCode((int)identityProviderUser.StatusCode, identityProviderUser.Message);
-
-        return Ok(identityProviderUser);
-    }
-
     private async Task<ApiResult<User>> GetAuthUserOrCreate(CreateUserDto user)
     {
         ApiResult<User> identityProviderUser;
-        var existingProviderUserResult =
-            await _identityService.GetUserByEmail(user.Email).ConfigureAwait(false);
 
-        if (existingProviderUserResult.Succeeded && existingProviderUserResult.Item.Any())
+        var result = await _identityService.GetUserByEmail(user.Email).ConfigureAwait(false);
+
+        if (result.Succeeded && result.Item.Any())
         {
-            if (existingProviderUserResult.Item.Count > 1)
+            if (result.Item.Count > 1)
                 return new ApiResult<User>
                 {
                     Message = $"Multiple users found with the email address {user.Email}",
@@ -66,9 +60,9 @@ public class UserController : ControllerBase
 
             identityProviderUser = new ApiResult<User>
             {
-                StatusCode = existingProviderUserResult.StatusCode,
+                StatusCode = result.StatusCode,
                 Succeeded = true,
-                Item = existingProviderUserResult.Item.First()
+                Item = result.Item.First()
             };
 
             await UpdateUser(identityProviderUser);

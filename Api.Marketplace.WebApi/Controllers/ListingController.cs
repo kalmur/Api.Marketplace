@@ -12,7 +12,10 @@ public class ListingController : ControllerBase
     private readonly ILogger<CityController> _logger;
     private readonly IMediator _mediator;
 
-    public ListingController(ILogger<CityController> logger, IMediator mediator)
+    public ListingController(
+        ILogger<CityController> logger, 
+        IMediator mediator
+    )
     {
         _logger = logger;
         _mediator = mediator;
@@ -27,8 +30,6 @@ public class ListingController : ControllerBase
             request.Description, request.Price, request.Address, request.PostCode));
 
         _logger.LogInformation("Listing created.");
-
-        // CreateListingDto - add DTO instead of Request
 
         return Created(
             "api/listing",

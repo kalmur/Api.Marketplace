@@ -21,6 +21,7 @@ public class Auth0Service : IIdentityProviderService
     private readonly IAuthenticationApiClient _authenticationClient;
     private readonly IAuth0QueryBuilder _queryBuilder;
     private readonly IAuth0UsersClient _usersClient;
+    private readonly IPasswordService _passwordService;
     private readonly Auth0Options _options;
 
     public Auth0Service(
@@ -28,6 +29,7 @@ public class Auth0Service : IIdentityProviderService
         IAuthenticationApiClient authenticationClient,
         IAuth0QueryBuilder queryBuilder,
         IAuth0UsersClient usersClient,
+        IPasswordService passwordService,
         IOptions<Auth0Options> options
     )
     {
@@ -35,11 +37,14 @@ public class Auth0Service : IIdentityProviderService
         _authenticationClient = authenticationClient;
         _queryBuilder = queryBuilder;
         _usersClient = usersClient;
+        _passwordService = passwordService;
         _options = options.Value;
     }
 
     public virtual async Task<ApiResult<MarketplaceUser>> CreateUserAsync(CreateUserDto user)
     {
+        var password = _passwordService.GetNewPassword();
+
         Auth0User auth0User;
         try
         {
@@ -47,6 +52,7 @@ public class Auth0Service : IIdentityProviderService
             {
                 Connection = _options.Connection,
                 Email = user.Email,
+                Password = password,    
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 FullName = $"{user.FirstName} {user.LastName}",

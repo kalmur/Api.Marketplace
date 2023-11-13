@@ -17,6 +17,11 @@ public static class DependencyInjection
 
         services.AddMediatR(config => config.RegisterServicesFromAssembly(currentAssembly));
 
+        services
+            .AddSingleton<IPasswordService, PasswordService>()
+            .AddSingleton<IPasswordGenerator, PasswordGenerator>()
+            .AddSingleton<IPasswordValidator, PasswordValidator>();
+
         RegisterAuth0Services(services, configuration);
 
         return services;

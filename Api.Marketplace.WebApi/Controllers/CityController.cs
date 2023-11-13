@@ -12,7 +12,10 @@ public class CityController : ControllerBase
     private readonly ILogger<CityController> _logger;
     private readonly IMediator _mediator;
 
-    public CityController(ILogger<CityController> logger, IMediator mediator)
+    public CityController(
+        ILogger<CityController> logger, 
+        IMediator mediator
+    )
     {
         _logger = logger;
         _mediator = mediator;
