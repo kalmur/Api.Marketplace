@@ -1,6 +1,5 @@
 ﻿using Api.Marketplace.Application.Workflows.City.CreateCity;
 using Api.Marketplace.WebApi.DTOs;
-using Api.Marketplace.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +12,10 @@ public class CityController : ControllerBase
     private readonly ILogger<CityController> _logger;
     private readonly IMediator _mediator;
 
-    public CityController(ILogger<CityController> logger, IMediator mediator)
+    public CityController(
+        ILogger<CityController> logger, 
+        IMediator mediator
+    )
     {
         _logger = logger;
         _mediator = mediator;
@@ -32,6 +34,6 @@ public class CityController : ControllerBase
 
         return Created(
             "api/city", 
-            city.ToDto());
+            city.CityId);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Api.Marketplace.Application.Workflows.Listing.CreateListing;
 using Api.Marketplace.WebApi.DTOs;
-using Api.Marketplace.WebApi.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +12,10 @@ public class ListingController : ControllerBase
     private readonly ILogger<CityController> _logger;
     private readonly IMediator _mediator;
 
-    public ListingController(ILogger<CityController> logger, IMediator mediator)
+    public ListingController(
+        ILogger<CityController> logger, 
+        IMediator mediator
+    )
     {
         _logger = logger;
         _mediator = mediator;
@@ -21,16 +23,16 @@ public class ListingController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateListingResponseDto))]
-    public async Task<IActionResult> CreateListing([FromBody] CreateListingRequest request)
+    public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
     {
         var listing = await _mediator.Send(new CreateListingRequest(
-            request.SellLease, request.Name, request.Category, request.Description, request.Price, request.Address,
-            request.PostCode));
+            request.UserId, request.CityId, request.SellLease, request.Name, request.Category, 
+            request.Description, request.Price, request.Address, request.PostCode));
 
         _logger.LogInformation("Listing created.");
 
         return Created(
             "api/listing",
-            listing.ToDto());
+            listing.ListingId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -43,7 +44,8 @@ namespace Api.Marketplace.Persistence.Migrations
                 name: "Listing",
                 columns: table => new
                 {
-                    ListingId = table.Column<int>(type: "int", nullable: false),
+                    ListingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     SellLease = table.Column<int>(type: "int", nullable: false),
@@ -67,8 +69,8 @@ namespace Api.Marketplace.Persistence.Migrations
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Listing_User_ListingId",
-                        column: x => x.ListingId,
+                        name: "FK_Listing_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -78,6 +80,11 @@ namespace Api.Marketplace.Persistence.Migrations
                 name: "IX_Listing_CityId",
                 table: "Listing",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Listing_UserId",
+                table: "Listing",
+                column: "UserId");
         }
 
         /// <inheritdoc />

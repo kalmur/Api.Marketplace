@@ -7,5 +7,5 @@ public class CreateListingResponse
         ListingId = listingId;
     }
 
-    public int ListingId { get; set; }
+    public int ListingId { get; }
 }

@@ -4,8 +4,10 @@ namespace Api.Marketplace.Application.Workflows.Listing.CreateListing;
 
 public class CreateListingRequest : IRequest<CreateListingResponse>
 {
-    public CreateListingRequest(int sellLease, string name, string category, string? description, decimal price, string address, string postCode)
+    public CreateListingRequest(int userId, int cityId, int sellLease, string name, string category, string? description, decimal price, string address, string postCode)
     {
+        UserId = userId;
+        CityId = cityId;
         SellLease = sellLease;
         Name = name;
         Category = category;
@@ -15,8 +17,8 @@ public class CreateListingRequest : IRequest<CreateListingResponse>
         PostCode = postCode;
     }
 
-    public int UserId { get; }
-    public int CityId { get; }
+    public int UserId { get; set; }
+    public int CityId { get; set; }
     public int SellLease { get; }
     public string Name { get; }
     public string Category { get; }
@@ -24,5 +26,5 @@ public class CreateListingRequest : IRequest<CreateListingResponse>
     public decimal Price { get; }
     public string Address { get; }
     public string PostCode { get; }
-    public DateTime? AvailableFrom { get; }
+    public DateTime? AvailableFrom { get; set; }
 }
