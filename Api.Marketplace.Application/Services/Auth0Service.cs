@@ -19,7 +19,6 @@ public class Auth0Service : IIdentityProviderService
     private const string ProviderName = "Auth0";
     private readonly ILogger<Auth0Service> _logger;
     private readonly IAuthenticationApiClient _authenticationClient;
-    private readonly IAuth0QueryBuilder _queryBuilder;
     private readonly IAuth0UsersClient _usersClient;
     private readonly IPasswordService _passwordService;
     private readonly Auth0Options _options;
@@ -27,7 +26,6 @@ public class Auth0Service : IIdentityProviderService
     public Auth0Service(
         ILogger<Auth0Service> logger,
         IAuthenticationApiClient authenticationClient,
-        IAuth0QueryBuilder queryBuilder,
         IAuth0UsersClient usersClient,
         IPasswordService passwordService,
         IOptions<Auth0Options> options
@@ -35,7 +33,6 @@ public class Auth0Service : IIdentityProviderService
     {
         _logger = logger;
         _authenticationClient = authenticationClient;
-        _queryBuilder = queryBuilder;
         _usersClient = usersClient;
         _passwordService = passwordService;
         _options = options.Value;

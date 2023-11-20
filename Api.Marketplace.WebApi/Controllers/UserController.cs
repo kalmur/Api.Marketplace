@@ -26,11 +26,11 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateUserResponseDto))]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserDto createUserDto)
     {
-        var auth0User = await GetAuthUserOrCreate(createUserDto);
+        var result = await GetAuthUserOrCreate(createUserDto);
 
-        return !auth0User.Succeeded
-            ? StatusCode((int)auth0User.StatusCode, auth0User.Message)
-            : Ok(auth0User);
+        return !result.Succeeded
+            ? StatusCode((int)result.StatusCode, result.Message)
+            : Ok(result);
     }
 
     [HttpGet]
@@ -38,8 +38,29 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAuth0User(string providerId)
     {
-        var response = _identityService.GetUserAsync(providerId).ConfigureAwait(false);
-        return Ok(response);
+        var result = await _identityService.GetUserAsync(providerId);
+
+        return !result.Succeeded
+            ? StatusCode((int)result.StatusCode, result.Message)
+            : Ok(result);
+    }
+
+    [HttpPut]
+    [Route("{providerId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateAuth0User(string providerId, [FromBody] UpdateUserDto user)
+    {
+        var result = await _identityService.UpdateUserAsync(providerId, new UpdateUserDto
+        {
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PhoneNumber = user.PhoneNumber,
+        });
+
+        return !result.Succeeded
+            ? StatusCode((int)result.StatusCode, result.Message)
+            : Ok(result);
     }
 
     private async Task<ApiResult<User>> GetAuthUserOrCreate(CreateUserDto user)
@@ -81,7 +102,7 @@ public class UserController : ControllerBase
         return identityProviderUser;
     }
 
-    private async Task<ApiResult<User>> UpdateUser(ApiResult<User> identityProviderUser)
+    private async Task UpdateUser(ApiResult<User> identityProviderUser)
     {
         var updateUser = new UpdateUserDto
         {
@@ -91,7 +112,7 @@ public class UserController : ControllerBase
             PhoneNumber = identityProviderUser.Item.PhoneNumber
         };
 
-        return await _identityService.UpdateUserAsync(identityProviderUser.Item.ProviderSubjectId, updateUser)
+        await _identityService.UpdateUserAsync(identityProviderUser.Item.ProviderSubjectId, updateUser)
             .ConfigureAwait(false);
     }
 }

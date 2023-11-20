@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Workflows\Listing\GetListingsByUserId\" />
-    <Folder Include="Workflows\Listing\DeleteListing\" />
     <Folder Include="Workflows\Listing\UpdateListing\" />
   </ItemGroup>
 
