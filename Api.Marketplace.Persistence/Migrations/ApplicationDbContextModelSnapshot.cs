@@ -116,7 +116,7 @@ namespace Api.Marketplace.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<string>("Username")
+                    b.Property<string>("ExternalUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

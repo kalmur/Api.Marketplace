@@ -1,4 +1,5 @@
 ﻿using Api.Marketplace.Application.Workflows.Listing.CreateListing;
+using Api.Marketplace.Application.Workflows.Listing.DeleteListing;
 using Api.Marketplace.WebApi.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public class ListingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateListingResponseDto))]
     public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
     {
-        var listing = await _mediator.Send(new CreateListingRequest(
+        var result = await _mediator.Send(new CreateListingRequest(
             request.UserId, request.CityId, request.SellLease, request.Name, request.Category, 
             request.Description, request.Price, request.Address, request.PostCode));
 
@@ -33,6 +34,15 @@ public class ListingController : ControllerBase
 
         return Created(
             "api/listing",
-            listing.ListingId);
+            result.ListingId);
+    }
+
+    [HttpDelete]
+    [Route("{listingId}")]
+    public async Task<IActionResult> DeleteListing(int listingId)
+    {
+        await _mediator.Publish(new DeleteListingNotification(listingId));
+
+        return NoContent();
     }
 }

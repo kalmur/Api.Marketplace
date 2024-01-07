@@ -19,7 +19,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .Property(x => x.Username)
+            .Property(x => x.ExternalUserId)
             .IsRequired();
     }
 }

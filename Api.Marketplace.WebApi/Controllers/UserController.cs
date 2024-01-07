@@ -1,7 +1,9 @@
 ﻿using Api.Marketplace.Application.DTOs;
 using Api.Marketplace.Application.Interfaces.Services;
 using Api.Marketplace.Application.Models;
+using Api.Marketplace.Application.Workflows.User.CreateUser;
 using Api.Marketplace.WebApi.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,24 +15,27 @@ public class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;
     private readonly IIdentityProviderService _identityService;
+    private readonly IMediator _mediator;
 
     public UserController(
         ILogger<UserController> logger,
-        IIdentityProviderService identityService)
+        IIdentityProviderService identityService,
+        IMediator mediator)
     {
         _logger = logger;
         _identityService = identityService;
+        _mediator = mediator;
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateUserResponseDto))]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserDto createUserDto)
     {
-        var auth0User = await GetAuthUserOrCreate(createUserDto);
+        var result = await GetAuthUserOrCreate(createUserDto);
 
-        return !auth0User.Succeeded
-            ? StatusCode((int)auth0User.StatusCode, auth0User.Message)
-            : Ok(auth0User);
+        return !result.Succeeded
+            ? StatusCode((int)result.StatusCode, result.Message)
+            : Ok(result);
     }
 
     [HttpGet]
@@ -38,8 +43,29 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAuth0User(string providerId)
     {
-        var response = _identityService.GetUserAsync(providerId).ConfigureAwait(false);
-        return Ok(response);
+        var result = await _identityService.GetUserAsync(providerId);
+
+        return !result.Succeeded
+            ? StatusCode((int)result.StatusCode, result.Message)
+            : Ok(result);
+    }
+
+    [HttpPut]
+    [Route("{providerId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateAuth0User(string providerId, [FromBody] UpdateUserDto user)
+    {
+        var result = await _identityService.UpdateUserAsync(providerId, new UpdateUserDto
+        {
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PhoneNumber = user.PhoneNumber,
+        });
+
+        return !result.Succeeded
+            ? StatusCode((int)result.StatusCode, result.Message)
+            : Ok(result);
     }
 
     private async Task<ApiResult<User>> GetAuthUserOrCreate(CreateUserDto user)
@@ -66,22 +92,24 @@ public class UserController : ControllerBase
             };
 
             await UpdateUser(identityProviderUser);
+
         }
         else
         {
             var createUserResult = await _identityService.CreateUserAsync(user).ConfigureAwait(false);
-            if (!createUserResult.Succeeded)
-                return createUserResult;
+            if (!createUserResult.Succeeded) return createUserResult;
 
             identityProviderUser = createUserResult;
-
             await UpdateUser(identityProviderUser);
+
+            var externalProviderId = identityProviderUser.Item.ProviderSubjectId;
+            await _mediator.Publish(new CreateUserNotification(externalProviderId));
         }
 
         return identityProviderUser;
     }
 
-    private async Task<ApiResult<User>> UpdateUser(ApiResult<User> identityProviderUser)
+    private async Task UpdateUser(ApiResult<User> identityProviderUser)
     {
         var updateUser = new UpdateUserDto
         {
@@ -91,7 +119,7 @@ public class UserController : ControllerBase
             PhoneNumber = identityProviderUser.Item.PhoneNumber
         };
 
-        return await _identityService.UpdateUserAsync(identityProviderUser.Item.ProviderSubjectId, updateUser)
+        await _identityService.UpdateUserAsync(identityProviderUser.Item.ProviderSubjectId, updateUser)
             .ConfigureAwait(false);
     }
 }
