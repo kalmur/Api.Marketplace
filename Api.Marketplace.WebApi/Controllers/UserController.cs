@@ -1,7 +1,9 @@
 ﻿using Api.Marketplace.Application.DTOs;
 using Api.Marketplace.Application.Interfaces.Services;
 using Api.Marketplace.Application.Models;
+using Api.Marketplace.Application.Workflows.User.CreateUser;
 using Api.Marketplace.WebApi.DTOs;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,13 +15,16 @@ public class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;
     private readonly IIdentityProviderService _identityService;
+    private readonly IMediator _mediator;
 
     public UserController(
         ILogger<UserController> logger,
-        IIdentityProviderService identityService)
+        IIdentityProviderService identityService,
+        IMediator mediator)
     {
         _logger = logger;
         _identityService = identityService;
+        _mediator = mediator;
     }
 
     [HttpPost]
@@ -87,16 +92,18 @@ public class UserController : ControllerBase
             };
 
             await UpdateUser(identityProviderUser);
+
         }
         else
         {
             var createUserResult = await _identityService.CreateUserAsync(user).ConfigureAwait(false);
-            if (!createUserResult.Succeeded)
-                return createUserResult;
+            if (!createUserResult.Succeeded) return createUserResult;
 
             identityProviderUser = createUserResult;
-
             await UpdateUser(identityProviderUser);
+
+            var externalProviderId = identityProviderUser.Item.ProviderSubjectId;
+            await _mediator.Publish(new CreateUserNotification(externalProviderId));
         }
 
         return identityProviderUser;

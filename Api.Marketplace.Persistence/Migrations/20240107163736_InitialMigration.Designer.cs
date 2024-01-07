@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Marketplace.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231027121220_InitialMigration")]
+    [Migration("20240107163736_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -119,7 +119,7 @@ namespace Api.Marketplace.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<string>("Username")
+                    b.Property<string>("ExternalUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
