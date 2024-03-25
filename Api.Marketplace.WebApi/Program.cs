@@ -1,6 +1,8 @@
 using Api.Marketplace.Application;
 using Api.Marketplace.Persistence;
 using Microsoft.OpenApi.Models;
+using HttpResponse = Api.Marketplace.WebApi.Services.HttpResponse;
+using IHttpResponse = Api.Marketplace.WebApi.Services.Interfaces.IHttpResponse;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services.AddSwaggerGen(b =>
 builder.Services
     .AddApplication(builder.Configuration)
     .AddPersistence(builder.Configuration);
+
+builder.Services.AddScoped<IHttpResponse, HttpResponse>();
 
 var app = builder.Build();
 

@@ -23,7 +23,7 @@ public class CreateListingDto
     public string? Description { get; set; }
     
     [JsonPropertyName("Price")] 
-    public decimal Price { get; set; }
+    public int Price { get; set; }
 
     [JsonPropertyName("Address")]
     public string Address { get; set; }

@@ -9,15 +9,12 @@ namespace Api.Marketplace.WebApi.Controllers;
 [Route("api/[controller]")]
 public class CityController : ControllerBase
 {
-    private readonly ILogger<CityController> _logger;
     private readonly IMediator _mediator;
 
     public CityController(
-        ILogger<CityController> logger, 
         IMediator mediator
     )
     {
-        _logger = logger;
         _mediator = mediator;
     }
 
@@ -28,9 +25,8 @@ public class CityController : ControllerBase
         var city = await _mediator.Send(
             new CreateCityRequest(
                 request.Name,
-                request.Country));
-
-        _logger.LogInformation("City created.");
+                request.Country)
+        );
 
         return Created(
             "api/city", 

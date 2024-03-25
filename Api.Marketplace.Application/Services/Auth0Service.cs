@@ -12,7 +12,7 @@ using System.Net;
 namespace Api.Marketplace.Application.Services;
 
 using Auth0User = Auth0.ManagementApi.Models.User;
-using MarketplaceUser = Models.User;
+using MarketplaceUser = Models.UserModel;
 
 public class Auth0Service : IIdentityProviderService
 {

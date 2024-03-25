@@ -1,4 +1,4 @@
-﻿using Api.Marketplace.Application.DBModels;
+﻿using Api.Marketplace.Application.Entities;
 using Api.Marketplace.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

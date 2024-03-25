@@ -1,4 +1,4 @@
-﻿using Api.Marketplace.Application.DBModels;
+﻿using Api.Marketplace.Application.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,19 +12,11 @@ public class CityEntityConfiguration : IEntityTypeConfiguration<City>
             .ToTable("City")
             .HasKey(x => x.CityId);
 
-        builder
-            .HasMany(x => x.Listings)
-            .WithOne(x => x.City)
-            .HasForeignKey(x => x.CityId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.Property(x => x.CityId).ValueGeneratedOnAdd();
 
-        builder
-            .Property(x => x.Name)
-            .IsRequired();
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(200);
 
-        builder
-            .Property(x => x.Country)
-            .IsRequired();
+        builder.Property(x => x.Country).IsRequired().HasMaxLength(200);
 
         builder
             .Property(x => x.CreatedOn)
@@ -32,5 +24,11 @@ public class CityEntityConfiguration : IEntityTypeConfiguration<City>
 
         builder
             .Property(x => x.UpdatedOn);
+
+        builder
+            .HasMany(x => x.Listings)
+            .WithOne(li => li.City)
+            .HasForeignKey(li => li.CityId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

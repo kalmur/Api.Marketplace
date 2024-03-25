@@ -17,8 +17,8 @@ namespace Api.Marketplace.Persistence.Migrations
                 {
                     CityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -33,7 +33,7 @@ namespace Api.Marketplace.Persistence.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ExternalProviderId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,13 +49,13 @@ namespace Api.Marketplace.Persistence.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     SellLease = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AvailableFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AvailableFrom = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

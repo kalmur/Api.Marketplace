@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Api.Marketplace.WebApi.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Marketplace.WebApi.Services;
@@ -19,6 +20,17 @@ public class HttpResponse : IHttpResponse
         {
             StatusCode = StatusCodes.Status403Forbidden
         };
+    }
+
+    public NotFoundObjectResult NotFound(string? errorMessage = default)
+    {
+        return new NotFoundObjectResult(new ProblemDetails
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+            Title = "Not Found.",
+            Detail = errorMessage ?? "The requested resource could not be found.",
+            Status = StatusCodes.Status404NotFound
+        });
     }
 
     public ObjectResult InternalServerError(string? errorMessage = default)

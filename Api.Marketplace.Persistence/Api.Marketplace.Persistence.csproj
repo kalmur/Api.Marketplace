@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Api.Marketplace.Application\Api.Marketplace.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

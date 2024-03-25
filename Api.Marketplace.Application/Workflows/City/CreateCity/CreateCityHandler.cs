@@ -15,7 +15,11 @@ public class CreateCityHandler
 
     public async Task<CreateCityResponse> Handle(CreateCityRequest request, CancellationToken cancellationToken)
     {
-        var city = new DBModels.City(request.Name, request.Country);
+        var city = new Entities.City
+        { 
+            Name = request.Name, 
+            Country = request.Country
+        };
 
         _context.Cities.Add(city);
         await _context.SaveChangesAsync(cancellationToken);
