@@ -1,0 +1,1 @@
+This standalone ASP.NET WebApi was created to manage the orchestration of the backend processes for TOR MARKET, a marketplace that enables users to sell, lease and rent their goods with cryptocurrencies.

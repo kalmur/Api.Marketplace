@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Marketplace.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:Api.Marketplace.Persistence/Migrations/20240320135157_InitialMigration.Designer.cs
     [Migration("20240320135157_InitialMigration")]
+========
+    [Migration("20240107163736_InitialMigration")]
+>>>>>>>> main:Api.Marketplace.Persistence/Migrations/20240107163736_InitialMigration.Designer.cs
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -120,7 +124,11 @@ namespace Api.Marketplace.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+<<<<<<<< HEAD:Api.Marketplace.Persistence/Migrations/20240320135157_InitialMigration.Designer.cs
                     b.Property<string>("ExternalProviderId")
+========
+                    b.Property<string>("ExternalUserId")
+>>>>>>>> main:Api.Marketplace.Persistence/Migrations/20240107163736_InitialMigration.Designer.cs
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");

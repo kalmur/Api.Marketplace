@@ -1,22 +1,24 @@
-﻿using Api.Marketplace.Application.Interfaces;
+﻿
+using Api.Marketplace.Application.Interfaces;
+using Api.Marketplace.Application.Workflows.User.CreateUser;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Api.Marketplace.Application.Workflows.User.CreateUser
 {
-    public class CreateUserNotificationHandler : INotificationHandler<CreateUserNotification>
+public class CreateUserNotificationHandler : INotificationHandler<CreateUserNotification>
+{
+    private readonly IApplicationDbContext _context;
+    private readonly ILogger<CreateUserNotificationHandler> _logger;
+
+    public CreateUserNotificationHandler(IApplicationDbContext context, ILogger<CreateUserNotificationHandler> logger)
     {
-        private readonly IApplicationDbContext _context;
-        private readonly ILogger<CreateUserNotificationHandler> _logger;
+        _context = context;
+        _logger = logger;
+    }
 
-        public CreateUserNotificationHandler(IApplicationDbContext context, ILogger<CreateUserNotificationHandler> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
-
-        public async Task Handle(CreateUserNotification notification, CancellationToken cancellationToken)
-        {
+    public async Task Handle(CreateUserNotification notification, CancellationToken cancellationToken)
+    {
             _context.Users.Add(new Entities.User
             {
                 ExternalProviderId = notification.ExternalProviderId

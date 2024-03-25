@@ -1,4 +1,5 @@
 using Api.Marketplace.Application;
+using Api.Marketplace.Application.Extensions;
 using Api.Marketplace.Persistence;
 using Microsoft.OpenApi.Models;
 using HttpResponse = Api.Marketplace.WebApi.Services.HttpResponse;
@@ -8,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<CorrelationIdActionFilter>();
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
