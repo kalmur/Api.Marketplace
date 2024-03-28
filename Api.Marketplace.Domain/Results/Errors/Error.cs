@@ -1,8 +1,5 @@
-﻿namespace Api.Marketplace.Application.Results.Errors
+﻿namespace Api.Marketplace.Domain.Results.Errors
 {
-    /// <summary>
-    ///     The possible Error Types.
-    /// </summary>
     public enum ErrorType
     {
         Api,
@@ -11,9 +8,6 @@
         NotFound
     }
 
-    /// <summary>
-    ///     Base error class.
-    /// </summary>
     public abstract class Error
     {
         protected Error(ErrorType type)

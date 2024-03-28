@@ -1,4 +1,4 @@
-﻿namespace Api.Marketplace.Application.Results
+﻿namespace Api.Marketplace.Domain.Results
 {
     public readonly struct Result<TValue, TError>
     {
@@ -23,31 +23,16 @@
         public TValue? Value => _value;
         public TError? Error => _error;
 
-        /// <summary>
-        ///     Create the Successful Result.
-        /// </summary>
-        /// <param name="value">The object denoting a Successful Result.</param>
         public static implicit operator Result<TValue, TError>(TValue value)
         {
             return new(value);
         }
 
-        /// <summary>
-        ///     Create the Error Result.
-        /// </summary>
-        /// <param name="error">The object denoting an Error Result.</param>
         public static implicit operator Result<TValue, TError>(TError error)
         {
             return new(error);
         }
 
-        /// <summary>
-        ///     Method for mapping the Successful or Error case to a Result.
-        /// </summary>
-        /// <typeparam name="TResult">The result required of the actions being passed in.</typeparam>
-        /// <param name="success">The action to perform in the case of a Successful Result.</param>
-        /// <param name="failure">The action to perform in the case of an Error Result.</param>
-        /// <returns>The result object of the actions being passed in.</returns>
         public TResult Match<TResult>(
             Func<TValue, TResult> success,
             Func<TError, TResult> failure

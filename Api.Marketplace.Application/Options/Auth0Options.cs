@@ -8,8 +8,4 @@ public class Auth0Options
     public string? ClientId { get; set; }
     public string? ClientSecret  { get; set; }
     public string? Connection { get; set; }
-    public string? UsersQuery { get; set; }
-    public string? FieldsToInclude { get; set;}
-    public string? IncludeFields { get; set;}
-    public string? SearchEngine { get; set; }
 }

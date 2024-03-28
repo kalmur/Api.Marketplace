@@ -1,5 +1,4 @@
 ﻿using Api.Marketplace.Application.Interfaces.Services;
-using Api.Marketplace.Application.Models;
 using Api.Marketplace.Application.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -8,11 +7,12 @@ using Api.Marketplace.Application.DTOs;
 using Auth0.Core.Exceptions;
 using Auth0.ManagementApi.Models;
 using System.Net;
+using Api.Marketplace.Domain.Models;
 
 namespace Api.Marketplace.Application.Services;
 
 using Auth0User = Auth0.ManagementApi.Models.User;
-using MarketplaceUser = Models.UserModel;
+using MarketplaceUser = UserModel;
 
 public class Auth0Service : IIdentityProviderService
 {

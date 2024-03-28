@@ -1,5 +1,4 @@
-﻿using Api.Marketplace.Application.Entities;
-using Api.Marketplace.Application.Extensions;
+﻿using Api.Marketplace.Application.Extensions;
 using Api.Marketplace.Application.Interfaces;
 using MediatR;
 

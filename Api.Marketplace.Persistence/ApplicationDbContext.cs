@@ -1,5 +1,5 @@
-﻿using Api.Marketplace.Application.Entities;
-using Api.Marketplace.Application.Interfaces;
+﻿using Api.Marketplace.Application.Interfaces;
+using Api.Marketplace.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Marketplace.Persistence;

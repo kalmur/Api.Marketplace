@@ -1,12 +1,12 @@
 ﻿using Api.Marketplace.Application.DTOs;
 using Api.Marketplace.Application.Interfaces.Services;
-using Api.Marketplace.Application.Models;
 using Api.Marketplace.Application.Workflows.User.CreateUser;
 using Api.Marketplace.WebApi.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Api.Marketplace.Application.Workflows.User.CreateUser;
+using Api.Marketplace.Domain.Models;
 using MediatR;
 
 namespace Api.Marketplace.WebApi.Controllers;

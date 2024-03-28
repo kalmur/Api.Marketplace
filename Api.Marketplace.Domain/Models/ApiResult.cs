@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Net;
+﻿using System.Net;
+using Newtonsoft.Json;
 
-namespace Api.Marketplace.Application.Models;
+namespace Api.Marketplace.Domain.Models;
 
 public class ApiResult
 {

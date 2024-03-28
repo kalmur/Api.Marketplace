@@ -1,4 +1,4 @@
-﻿namespace Api.Marketplace.Application.Results.Errors
+﻿namespace Api.Marketplace.Domain.Results.Errors
 {
     public class RequestValidationError : Error
     {

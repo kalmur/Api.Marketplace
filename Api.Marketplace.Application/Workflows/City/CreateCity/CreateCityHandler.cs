@@ -15,7 +15,7 @@ public class CreateCityHandler
 
     public async Task<CreateCityResponse> Handle(CreateCityRequest request, CancellationToken cancellationToken)
     {
-        var city = new Entities.City
+        var city = new Domain.Entities.City
         { 
             Name = request.Name, 
             Country = request.Country

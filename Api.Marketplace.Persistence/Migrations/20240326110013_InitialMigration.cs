@@ -33,11 +33,7 @@ namespace Api.Marketplace.Persistence.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-<<<<<<<< HEAD:Api.Marketplace.Persistence/Migrations/20240320135157_InitialMigration.cs
                     ExternalProviderId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
-========
-                    ExternalUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
->>>>>>>> main:Api.Marketplace.Persistence/Migrations/20240107163736_InitialMigration.cs
                 },
                 constraints: table =>
                 {

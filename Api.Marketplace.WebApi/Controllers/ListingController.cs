@@ -1,10 +1,10 @@
 ﻿using Api.Marketplace.Application.DTOs;
-using Api.Marketplace.Application.Results.Errors;
 using Api.Marketplace.Application.Workflows.Listing.CreateListing;
 using Api.Marketplace.Application.Workflows.Listing.DeleteListing;
 using Api.Marketplace.Application.Workflows.Listing.GetListingByType;
 using Api.Marketplace.Application.Workflows.Listing.GetListingsById;
 using Api.Marketplace.Application.Workflows.Listing.UpdateListing;
+using Api.Marketplace.Domain.Results.Errors;
 using Api.Marketplace.WebApi.DTOs;
 using Api.Marketplace.WebApi.Services.Interfaces;
 using MediatR;

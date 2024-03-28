@@ -1,6 +1,6 @@
 ﻿using Api.Marketplace.Application.Interfaces;
-using Api.Marketplace.Application.Results.Errors;
 using Api.Marketplace.Application.Workflows.Listing.GetListingsById;
+using Api.Marketplace.Domain.Results.Errors;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

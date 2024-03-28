@@ -1,4 +1,4 @@
-﻿namespace Api.Marketplace.Application.Entities;
+﻿namespace Api.Marketplace.Domain.Entities;
 
 public class City : AuditableEntity
 {
@@ -6,5 +6,5 @@ public class City : AuditableEntity
     public string Name { get; set; }
     public string Country { get; set; }
 
-    public virtual ICollection<Listing> Listings { get; set; }
+    public virtual IReadOnlyCollection<Listing> Listings { get; set; }
 }

@@ -23,4 +23,8 @@
     <PackageReference Include="ZiggyCreatures.FusionCache" Version="0.23.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Api.Marketplace.Domain\Api.Marketplace.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

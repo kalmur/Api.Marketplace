@@ -1,4 +1,4 @@
-﻿namespace Api.Marketplace.Application.Models;
+﻿namespace Api.Marketplace.Domain.Models;
 
 public class Auth0MetaData
 {

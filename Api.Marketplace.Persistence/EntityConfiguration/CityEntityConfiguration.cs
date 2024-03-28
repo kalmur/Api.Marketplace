@@ -1,4 +1,5 @@
-﻿using Api.Marketplace.Application.Entities;
+﻿using Api.Marketplace.Domain.Entities;
+using Api.Marketplace.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +10,7 @@ public class CityEntityConfiguration : IEntityTypeConfiguration<City>
     public void Configure(EntityTypeBuilder<City> builder)
     {
         builder
-            .ToTable("City")
+            .ToTable(TableNames.City)
             .HasKey(x => x.CityId);
 
         builder.Property(x => x.CityId).ValueGeneratedOnAdd();

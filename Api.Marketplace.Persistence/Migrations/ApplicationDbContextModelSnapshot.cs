@@ -22,7 +22,7 @@ namespace Api.Marketplace.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Marketplace.Application.Entities.City", b =>
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.City", b =>
                 {
                     b.Property<int>("CityId")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.ToTable("City", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Marketplace.Application.Entities.Listing", b =>
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>
                 {
                     b.Property<int>("ListingId")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.ToTable("Listing", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Marketplace.Application.Entities.User", b =>
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -127,15 +127,15 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Marketplace.Application.Entities.Listing", b =>
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>
                 {
-                    b.HasOne("Api.Marketplace.Application.Entities.City", "City")
+                    b.HasOne("Api.Marketplace.Domain.Entities.City", "City")
                         .WithMany("Listings")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Marketplace.Application.Entities.User", "User")
+                    b.HasOne("Api.Marketplace.Domain.Entities.User", "User")
                         .WithMany("Listings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -146,12 +146,12 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Api.Marketplace.Application.Entities.City", b =>
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.City", b =>
                 {
                     b.Navigation("Listings");
                 });
 
-            modelBuilder.Entity("Api.Marketplace.Application.Entities.User", b =>
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.User", b =>
                 {
                     b.Navigation("Listings");
                 });

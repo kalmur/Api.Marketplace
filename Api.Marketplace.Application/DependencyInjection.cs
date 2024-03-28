@@ -10,9 +10,7 @@ namespace Api.Marketplace.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(
-        this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         var currentAssembly = typeof(DependencyInjection).Assembly;
 
@@ -23,9 +21,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static void RegisterAuth0Services(
-        IServiceCollection services, 
-        IConfiguration configuration)
+    private static void RegisterAuth0Services(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<Auth0Options>(configuration.GetSection(Auth0Options.SectionName));
 

@@ -1,4 +1,4 @@
-﻿namespace Api.Marketplace.Application.Entities;
+﻿namespace Api.Marketplace.Domain.Entities;
 
 public class AuditableEntity
 {

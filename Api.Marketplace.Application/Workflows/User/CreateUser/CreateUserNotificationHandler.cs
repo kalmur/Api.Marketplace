@@ -19,7 +19,7 @@ public class CreateUserNotificationHandler : INotificationHandler<CreateUserNoti
 
     public async Task Handle(CreateUserNotification notification, CancellationToken cancellationToken)
     {
-            _context.Users.Add(new Entities.User
+            _context.Users.Add(new Domain.Entities.User
             {
                 ExternalProviderId = notification.ExternalProviderId
             });

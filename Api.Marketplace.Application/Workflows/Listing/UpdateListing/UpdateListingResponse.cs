@@ -1,4 +1,4 @@
-﻿using Api.Marketplace.Application.Results.Errors;
+﻿using Api.Marketplace.Domain.Results.Errors;
 
 namespace Api.Marketplace.Application.Workflows.Listing.UpdateListing
 {

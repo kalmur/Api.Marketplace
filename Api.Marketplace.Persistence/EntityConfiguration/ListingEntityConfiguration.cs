@@ -1,4 +1,5 @@
-﻿using Api.Marketplace.Application.Entities;
+﻿using Api.Marketplace.Domain.Entities;
+using Api.Marketplace.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +10,7 @@ public class ListingEntityConfiguration : IEntityTypeConfiguration<Listing>
     public void Configure(EntityTypeBuilder<Listing> builder)
     {
         builder
-            .ToTable("Listing")
+            .ToTable(TableNames.Listing)
             .HasKey(x => x.ListingId);
 
         builder.Property(x => x.ListingId).ValueGeneratedOnAdd();
