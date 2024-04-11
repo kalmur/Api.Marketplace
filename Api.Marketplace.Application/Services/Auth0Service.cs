@@ -1,38 +1,32 @@
-﻿using Api.Marketplace.Application.Interfaces.Services;
-using Api.Marketplace.Application.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using Api.Marketplace.Application.Interfaces.Services;
 using Api.Marketplace.Application.Options;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Auth0.AuthenticationApi;
 using Api.Marketplace.Application.DTOs;
 using Auth0.Core.Exceptions;
 using Auth0.ManagementApi.Models;
 using System.Net;
+using Api.Marketplace.Domain.Models;
 
 namespace Api.Marketplace.Application.Services;
 
 using Auth0User = Auth0.ManagementApi.Models.User;
-using MarketplaceUser = Models.User;
+using MarketplaceUser = UserModel;
 
+[ExcludeFromCodeCoverage(Justification = "Auth0UsersClient cannot be mocked.")]
 public class Auth0Service : IIdentityProviderService
 {
     private const string ProviderName = "Auth0";
-    private readonly ILogger<Auth0Service> _logger;
-    private readonly IAuthenticationApiClient _authenticationClient;
     private readonly IAuth0UsersClient _usersClient;
     private readonly IPasswordService _passwordService;
     private readonly Auth0Options _options;
 
     public Auth0Service(
-        ILogger<Auth0Service> logger,
-        IAuthenticationApiClient authenticationClient,
         IAuth0UsersClient usersClient,
         IPasswordService passwordService,
         IOptions<Auth0Options> options
     )
     {
-        _logger = logger;
-        _authenticationClient = authenticationClient;
         _usersClient = usersClient;
         _passwordService = passwordService;
         _options = options.Value;

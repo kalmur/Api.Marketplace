@@ -7,7 +7,7 @@ public class CorrelationIdActionFilter : ActionFilterAttribute
 {
     private const string CorrelationIdHeaderName = "X-Correlation-ID";
 
-    private ILogger<CorrelationIdActionFilter> _logger;
+    private readonly ILogger<CorrelationIdActionFilter> _logger;
 
     public CorrelationIdActionFilter(ILogger<CorrelationIdActionFilter> logger)
     {

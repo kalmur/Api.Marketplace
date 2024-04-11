@@ -2,6 +2,9 @@ using Api.Marketplace.Application;
 using Api.Marketplace.Application.Extensions;
 using Api.Marketplace.Persistence;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics.CodeAnalysis;
+using HttpResponse = Api.Marketplace.WebApi.Services.HttpResponse;
+using IHttpResponse = Api.Marketplace.WebApi.Services.Interfaces.IHttpResponse;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,8 @@ builder.Services
     .AddApplication(builder.Configuration)
     .AddPersistence(builder.Configuration);
 
+builder.Services.AddScoped<IHttpResponse, HttpResponse>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,3 +43,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+[ExcludeFromCodeCoverage(Justification = "Exists for WebApplicationFactory Testing")]
+public partial class Program
+{
+}

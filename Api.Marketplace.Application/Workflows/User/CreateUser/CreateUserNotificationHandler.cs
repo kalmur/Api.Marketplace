@@ -1,8 +1,10 @@
-﻿
-using Api.Marketplace.Application.Interfaces;
-using Api.Marketplace.Application.Workflows.User.CreateUser;
+﻿using Api.Marketplace.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
+
+using ApiUser = Api.Marketplace.Domain.Entities.User;
+
+namespace Api.Marketplace.Application.Workflows.User.CreateUser;
 
 public class CreateUserNotificationHandler : INotificationHandler<CreateUserNotification>
 {
@@ -17,10 +19,13 @@ public class CreateUserNotificationHandler : INotificationHandler<CreateUserNoti
 
     public async Task Handle(CreateUserNotification notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Creating user in the database {externalProviderId}.", notification.ExternalProviderId);
-
-        _context.Users.Add(new Api.Marketplace.Application.DBModels.User(notification.ExternalProviderId));
+        _context.Users.Add(new ApiUser
+        {
+            ExternalProviderId = notification.ExternalProviderId
+        });
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation("User {externalProviderId} added to DB", notification.ExternalProviderId);
     }
 }

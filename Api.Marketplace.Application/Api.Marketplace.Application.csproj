@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Workflows\Listing\GetListingsByUserId\" />
-    <Folder Include="Workflows\Listing\UpdateListing\" />
+    <ProjectReference Include="..\Api.Marketplace.Domain\Api.Marketplace.Domain.csproj" />
   </ItemGroup>
 
 </Project>

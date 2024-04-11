@@ -1,4 +1,5 @@
-﻿using Api.Marketplace.Application.DBModels;
+﻿using Api.Marketplace.Domain.Entities;
+using Api.Marketplace.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,17 +10,17 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .ToTable("User")
+            .ToTable(TableNames.User)
             .HasKey(x => x.UserId);
+
+        builder.Property(x => x.UserId).ValueGeneratedOnAdd();
+
+        builder.Property(x => x.ExternalProviderId).HasMaxLength(200);
 
         builder
             .HasMany(x => x.Listings)
-            .WithOne(x => x.User)
-            .HasForeignKey(x => x.UserId)
+            .WithOne(li => li.User)
+            .HasForeignKey(li => li.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder
-            .Property(x => x.ExternalUserId)
-            .IsRequired();
     }
 }

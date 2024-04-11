@@ -1,6 +1,5 @@
 ﻿using Api.Marketplace.Application.DTOs;
-using Api.Marketplace.Application.Models;
-using Auth0.ManagementApi.Paging;
+using Api.Marketplace.Domain.Models;
 
 namespace Api.Marketplace.Application.Interfaces.Services;
 
@@ -14,10 +13,10 @@ public interface IIdentityProviderService
     ///     Email is <b>required</b>.
     /// </param>
     /// <returns>
-    ///     An <see cref="Models.ApiResult" /> indicating whether the operation was a success, and containing
+    ///     An <see cref="ApiResult" /> indicating whether the operation was a success, and containing
     ///     a <see cref="Auth0.ManagementApi.Models.User" /> with the external identity provider's identifier for the user.
     /// </returns>
-    Task<ApiResult<Models.User>> CreateUserAsync(CreateUserDto user);
+    Task<ApiResult<UserModel>> CreateUserAsync(CreateUserDto user);
 
     /// <summary>
     ///     Update a user in the external identity provider's system.
@@ -28,7 +27,7 @@ public interface IIdentityProviderService
     ///     An <see cref="ApiResult" /> indicating whether the operation was a success,
     ///     and containing a <see cref="Auth0.ManagementApi.Models.User" /> with the updated fields.
     /// </returns>
-    Task<ApiResult<Models.User>> UpdateUserAsync(string identityProviderId, UpdateUserDto user);
+    Task<ApiResult<UserModel>> UpdateUserAsync(string identityProviderId, UpdateUserDto user);
 
     /// <summary>
     ///     Get a user from the external identity provider's system.
@@ -38,7 +37,7 @@ public interface IIdentityProviderService
     ///     An <see cref="ApiResult" /> indicating whether the operation was a success, and containing
     ///     a <see cref="Auth0.ManagementApi.Models.User" /> with the external identity provider's identifier for the user.
     /// </returns>
-    Task<ApiResult<Models.User>> GetUserAsync(string providerId);
+    Task<ApiResult<UserModel>> GetUserAsync(string providerId);
 
     /// <summary>
     ///     Get a user from the external identity provider's system.
@@ -46,7 +45,7 @@ public interface IIdentityProviderService
     /// <param name="email"> The user's e-mail address that is registered with the identity provider.</param>
     /// <returns>
     ///     An <see cref="ApiResult" /> indicating whether the operation was a success, and containing
-    ///     a read-only list of <see cref="User" /> with the external identity provider's identifier for the user.
+    ///     a read-only list of <see cref="UserModel" /> with the external identity provider's identifier for the user.
     /// </returns>
-    Task<ApiResult<IReadOnlyList<Models.User>>> GetUserByEmail(string email);
+    Task<ApiResult<IReadOnlyList<UserModel>>> GetUserByEmail(string email);
 }
