@@ -1,8 +1,6 @@
 ﻿using Api.Marketplace.Application.DTOs;
-using Api.Marketplace.Application.Workflows.Listing.CreateListing;
-using Api.Marketplace.Application.Workflows.Listing.UpdateListing;
+using Api.Marketplace.Application.Workflows.Listings.CreateListing;
 using Api.Marketplace.Domain.Entities;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace Api.Marketplace.Application.Extensions
 {

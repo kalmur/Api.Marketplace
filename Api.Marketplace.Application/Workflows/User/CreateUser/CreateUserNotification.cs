@@ -1,7 +1,7 @@
 ﻿using MediatR;
 
-namespace Api.Marketplace.Application.Workflows.User.CreateUser
-{
+namespace Api.Marketplace.Application.Workflows.User.CreateUser;
+
 public class CreateUserNotification : INotification
 {
     public CreateUserNotification(string externalProviderId)
@@ -10,5 +10,4 @@ public class CreateUserNotification : INotification
     }
 
     public string ExternalProviderId { get; }
-}
 }

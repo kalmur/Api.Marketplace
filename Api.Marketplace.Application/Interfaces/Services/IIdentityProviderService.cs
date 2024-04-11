@@ -1,6 +1,5 @@
 ﻿using Api.Marketplace.Application.DTOs;
 using Api.Marketplace.Domain.Models;
-using Auth0.ManagementApi.Paging;
 
 namespace Api.Marketplace.Application.Interfaces.Services;
 

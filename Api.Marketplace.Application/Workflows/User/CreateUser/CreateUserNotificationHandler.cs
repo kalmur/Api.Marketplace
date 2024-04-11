@@ -1,11 +1,11 @@
-﻿
-using Api.Marketplace.Application.Interfaces;
-using Api.Marketplace.Application.Workflows.User.CreateUser;
+﻿using Api.Marketplace.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Api.Marketplace.Application.Workflows.User.CreateUser
-{
+using ApiUser = Api.Marketplace.Domain.Entities.User;
+
+namespace Api.Marketplace.Application.Workflows.User.CreateUser;
+
 public class CreateUserNotificationHandler : INotificationHandler<CreateUserNotification>
 {
     private readonly IApplicationDbContext _context;
@@ -19,13 +19,13 @@ public class CreateUserNotificationHandler : INotificationHandler<CreateUserNoti
 
     public async Task Handle(CreateUserNotification notification, CancellationToken cancellationToken)
     {
-            _context.Users.Add(new Domain.Entities.User
-            {
-                ExternalProviderId = notification.ExternalProviderId
-            });
-            await _context.SaveChangesAsync(cancellationToken);
+        _context.Users.Add(new ApiUser
+        {
+            ExternalProviderId = notification.ExternalProviderId
+        });
 
-            _logger.LogInformation("User {externalProviderId} added to DB", notification.ExternalProviderId);
-        }
+        await _context.SaveChangesAsync(cancellationToken);
+
+        _logger.LogInformation("User {externalProviderId} added to DB", notification.ExternalProviderId);
     }
 }

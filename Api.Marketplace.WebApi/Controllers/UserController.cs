@@ -5,9 +5,7 @@ using Api.Marketplace.WebApi.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Api.Marketplace.Application.Workflows.User.CreateUser;
 using Api.Marketplace.Domain.Models;
-using MediatR;
 
 namespace Api.Marketplace.WebApi.Controllers;
 
@@ -57,7 +55,10 @@ public class UserController : ControllerBase
     [HttpPut]
     [Route("{externalProviderId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateAuth0User(string externalProviderId, [FromBody] UpdateUserDto user)
+    public async Task<IActionResult> UpdateAuth0User(
+        string externalProviderId, 
+        [FromBody] UpdateUserDto user
+    )
     {
         var result = await _identityService.UpdateUserAsync(externalProviderId, new UpdateUserDto
         {
@@ -66,7 +67,6 @@ public class UserController : ControllerBase
             LastName = user.LastName,
             PhoneNumber = user.PhoneNumber,
         });
-
 
         return !result.Succeeded
             ? StatusCode((int)result.StatusCode, result.Message)

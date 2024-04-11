@@ -2,6 +2,7 @@ using Api.Marketplace.Application;
 using Api.Marketplace.Application.Extensions;
 using Api.Marketplace.Persistence;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics.CodeAnalysis;
 using HttpResponse = Api.Marketplace.WebApi.Services.HttpResponse;
 using IHttpResponse = Api.Marketplace.WebApi.Services.Interfaces.IHttpResponse;
 
@@ -42,3 +43,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+[ExcludeFromCodeCoverage(Justification = "Exists for WebApplicationFactory Testing")]
+public partial class Program
+{
+}
