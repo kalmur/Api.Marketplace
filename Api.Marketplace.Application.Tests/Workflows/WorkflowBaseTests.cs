@@ -16,6 +16,8 @@ public class WorkflowBaseTests
     protected IApplicationDbContext Context;
     protected City DemoCity1;
     protected City DemoCity2;
+    protected Listing DemoListing1;
+    protected Listing DemoListing2;
 
     [OneTimeSetUp]
     public void OneTimeSetUp()
@@ -30,7 +32,8 @@ public class WorkflowBaseTests
         _context = new ApplicationDbContext(dbOptions);
         _context.Database.EnsureCreated();
 
-        AddUserNote();
+        AddCities();
+        AddListings();
 
         _context.SaveChanges();
 
@@ -51,6 +54,8 @@ public class WorkflowBaseTests
         try
         {
             RemoveEntries<City>();
+            RemoveEntries<Listing>();
+            RemoveEntries<Domain.Entities.User>();
             _context.SaveChangesAsync().Wait();
         }
         catch (Exception e)
@@ -73,7 +78,7 @@ public class WorkflowBaseTests
         _context.RemoveRange(entries);
     }
 
-    private void AddUserNote()
+    private void AddCities()
     {
         DemoCity1 = new City()
         {
@@ -95,6 +100,26 @@ public class WorkflowBaseTests
 
         AddEntry(DemoCity1);
         AddEntry(DemoCity2);
+    }
+
+    private void AddListings()
+    {
+        DemoListing1 = new Listing()
+        {
+            ListingId = 1,
+            UserId = 1,
+            CityId = 1,
+            SellLease = 1,
+            Name = "MSI GE75",
+            Category = "Laptop",
+            Description = "Gaming laptop",
+            Price = 2000,
+            Address = "15 Jump street",
+            PostCode = "EH48 2FF",
+            AvailableFrom = DateTime.Now
+        };
+
+        AddEntry(DemoListing1);
     }
 }
 #nullable disable

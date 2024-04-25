@@ -50,7 +50,32 @@ namespace Api.Marketplace.Application.Extensions
                 SellLease = listing.SellLease,
                 Name = listing.Name,
                 Category = listing.Category,
-                Price = listing.Price
+                Price = listing.Price,
+                CityId = listing.CityId
+            };
+        }
+
+        public static IReadOnlyCollection<ListingDto> ToListDto(this IReadOnlyCollection<Listing> listings)
+        {
+            return listings.Select(listing => new ListingDto
+            {
+                Id = listing.ListingId,
+                SellLease = listing.SellLease,
+                Name = listing.Name,
+                Category = listing.Category,
+                Price = listing.Price,
+                CityId = listing.CityId
+            })
+                .ToList();
+        }
+
+        public static CityDto ToDto(this City city)
+        {
+            return new CityDto
+            {
+                CityId = city.CityId,
+                Country = city.Country,
+                Name = city.Name
             };
         }
     }
