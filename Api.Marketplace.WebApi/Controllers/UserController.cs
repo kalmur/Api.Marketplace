@@ -17,7 +17,8 @@ public class UserController : ControllerBase
     private readonly IIdentityProviderService _identityService;
     private readonly IMediator _mediator;
 
-    public UserController(
+    public UserController
+    (
         ILogger<UserController> logger,
         IIdentityProviderService identityService,
         IMediator mediator)

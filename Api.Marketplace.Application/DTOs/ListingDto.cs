@@ -4,7 +4,7 @@ namespace Api.Marketplace.Application.DTOs
 {
     public class ListingDto
     {
-        [JsonPropertyName(nameof(Id))]
+        [JsonIgnore]
         public int Id { get; set; }
 
         [JsonPropertyName(nameof(SellLease))]
@@ -19,7 +19,7 @@ namespace Api.Marketplace.Application.DTOs
         [JsonPropertyName(nameof(Price))]
         public int Price { get; set; }
 
-        //public string City { get; set; }
-        //public string Country { get; set; }
+        [JsonIgnore]
+        public int CityId { get; set; }
     }
 }

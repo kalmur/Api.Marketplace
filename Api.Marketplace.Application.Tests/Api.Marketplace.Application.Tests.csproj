@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Api.Marketplace.Testing\Api.Marketplace.Testing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Workflows\Listings\" />
+  </ItemGroup>
+
 </Project>

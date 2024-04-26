@@ -11,9 +11,7 @@ public class CitiesController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public CitiesController(
-        IMediator mediator
-    )
+    public CitiesController(IMediator mediator)
     {
         _mediator = mediator;
     }
