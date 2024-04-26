@@ -52,6 +52,9 @@ public class ListingsController : ControllerBase
     }
 
     [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
     public async Task<IActionResult> UpdateListing([FromBody]UpdateListingDto dto)
     {
         var request = new UpdateListingRequest(
@@ -74,6 +77,7 @@ public class ListingsController : ControllerBase
 
     [HttpDelete]
     [Route("{listingId}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
     public async Task<IActionResult> DeleteListing(int listingId)
     {
         await _mediator.Publish(new DeleteListingNotification(listingId));
@@ -83,6 +87,7 @@ public class ListingsController : ControllerBase
 
     [HttpGet]
     [Route("type/{sellRent}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetListingByTypeResponse))]
     public async Task<IActionResult> GetListingByType([FromRoute] int sellRent)
     {
         var request = new GetListingByTypeRequest(sellRent);
@@ -99,6 +104,8 @@ public class ListingsController : ControllerBase
 
     [HttpGet]
     [Route("{listingId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListingAndCityDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
     public async Task<IActionResult> GetListingById([FromRoute] int listingId)
     {
         var request = new GetListingByIdRequest(listingId);
@@ -124,6 +131,8 @@ public class ListingsController : ControllerBase
 
     [HttpGet]
     [Route("user/{externalProviderId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetListingByTypeResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
     public async Task<IActionResult> GetListingByUser([FromRoute] string externalProviderId)
     {
         var request = new GetListingByExternalProviderIdRequest(externalProviderId);
@@ -141,6 +150,8 @@ public class ListingsController : ControllerBase
 
     [HttpGet]
     [Route("{listingId}/reviews")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ListingAndReviewDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
     public async Task<IActionResult> GetListingWithReviews([FromRoute] int listingId)
     {
         var request = new GetListingWithReviewsRequest(listingId);
