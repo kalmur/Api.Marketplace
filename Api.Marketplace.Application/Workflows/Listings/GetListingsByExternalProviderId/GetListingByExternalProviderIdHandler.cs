@@ -1,9 +1,10 @@
 ﻿using Api.Marketplace.Application.Extensions;
 using Api.Marketplace.Application.Interfaces;
+using Api.Marketplace.Application.Workflows.Listings.GetListingByExternalProviderId;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Marketplace.Application.Workflows.Listings.GetListingByExternalProviderId
+namespace Api.Marketplace.Application.Workflows.Listings.GetListingsByExternalProviderId
 {
     public class GetListingByExternalProviderIdHandler 
         : IRequestHandler<GetListingByExternalProviderIdRequest, GetListingByExternalProviderIdResponse>

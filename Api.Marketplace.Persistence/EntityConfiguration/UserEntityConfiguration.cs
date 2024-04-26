@@ -19,8 +19,14 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .HasMany(x => x.Listings)
-            .WithOne(li => li.User)
-            .HasForeignKey(li => li.UserId)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasMany(x => x.Reviews)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

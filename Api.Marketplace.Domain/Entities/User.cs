@@ -6,4 +6,5 @@ public class User
     public string ExternalProviderId { get; set; }
 
     public virtual IReadOnlyCollection<Listing> Listings { get; set; }
+    public virtual IReadOnlyCollection<Review> Reviews { get; set; }
 }

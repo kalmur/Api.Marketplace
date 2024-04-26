@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Api.Marketplace.Persistence.EntityConfiguration;
 
-public class ListingsEntityConfiguration : IEntityTypeConfiguration<Listing>
+public class ListingEntityConfiguration : IEntityTypeConfiguration<Listing>
 {
     public void Configure(EntityTypeBuilder<Listing> builder)
     {
@@ -39,14 +39,20 @@ public class ListingsEntityConfiguration : IEntityTypeConfiguration<Listing>
 
         builder
             .HasOne(x => x.User)
-            .WithMany(c => c.Listings)
-            .HasForeignKey(c => c.CityId)
+            .WithMany(x => x.Listings)
+            .HasForeignKey(x => x.CityId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(x => x.City)
-            .WithMany(c => c.Listings)
-            .HasForeignKey(c => c.CityId)
+            .WithMany(x => x.Listings)
+            .HasForeignKey(x => x.CityId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasMany(x => x.Reviews)
+            .WithOne(x => x.Listing)
+            .HasForeignKey(x => x.ListingId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

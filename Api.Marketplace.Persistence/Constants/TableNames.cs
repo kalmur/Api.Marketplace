@@ -7,4 +7,6 @@ public class TableNames
     internal const string Listings = nameof(Listings);
 
     internal const string User = nameof(User);
+
+    internal const string Reviews = nameof(Reviews);
 }

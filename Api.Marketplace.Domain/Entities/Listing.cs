@@ -16,4 +16,5 @@ public class Listing : AuditableEntity
 
     public virtual User User { get; set; }
     public virtual City City { get; set; }
+    public virtual IReadOnlyCollection<Review> Reviews { get; set; }
 }

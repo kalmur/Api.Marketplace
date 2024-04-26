@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Marketplace.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240411120312_InitialMigration")]
+    [Migration("20240426090729_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -112,6 +112,42 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.ToTable("Listings", (string)null);
                 });
 
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("ListingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews", (string)null);
+                });
+
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -149,14 +185,40 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Review", b =>
+                {
+                    b.HasOne("Api.Marketplace.Domain.Entities.Listing", "Listing")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Api.Marketplace.Domain.Entities.User", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Listing");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.City", b =>
                 {
                     b.Navigation("Listings");
                 });
 
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.User", b =>
                 {
                     b.Navigation("Listings");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

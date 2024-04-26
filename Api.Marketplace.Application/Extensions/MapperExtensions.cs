@@ -78,5 +78,15 @@ namespace Api.Marketplace.Application.Extensions
                 Name = city.Name
             };
         }
+
+        public static IReadOnlyCollection<ReviewDto> ToDto(this IReadOnlyCollection<Review> reviews)
+        {
+            return reviews.Select(review => 
+                new ReviewDto
+                {
+                    Rating = review.Rating, 
+                    Comment = review.Comment
+                }).ToList();
+        }
     }
 }

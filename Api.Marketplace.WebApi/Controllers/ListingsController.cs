@@ -5,6 +5,7 @@ using Api.Marketplace.Application.Workflows.Listings.DeleteListing;
 using Api.Marketplace.Application.Workflows.Listings.GetListingByExternalProviderId;
 using Api.Marketplace.Application.Workflows.Listings.GetListingByType;
 using Api.Marketplace.Application.Workflows.Listings.GetListingsById;
+using Api.Marketplace.Application.Workflows.Listings.GetListingWithReviews;
 using Api.Marketplace.Application.Workflows.Listings.UpdateListing;
 using Api.Marketplace.Domain.Results.Errors;
 using Api.Marketplace.WebApi.DTOs;
@@ -136,5 +137,21 @@ public class ListingsController : ControllerBase
 
         var listings = response.Listings;
         return Ok(listings);
+    }
+
+    [HttpGet]
+    [Route("{listingId}/reviews")]
+    public async Task<IActionResult> GetListingWithReviews([FromRoute] int listingId)
+    {
+        var request = new GetListingWithReviewsRequest(listingId);
+
+        var response = await _mediator.Send(request);
+
+        if (response is null)
+        {
+            return _httpResponse.NotFound($"No listings found");
+        }
+
+        return Ok(response.ListingAndReview);
     }
 }
