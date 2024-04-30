@@ -18,6 +18,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Review> Reviews => Set<Review>();
 
+    public DbSet<Photo> Photos => Set<Photo>();
+
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         foreach (var entry in ChangeTracker.Entries<AuditableEntity>()

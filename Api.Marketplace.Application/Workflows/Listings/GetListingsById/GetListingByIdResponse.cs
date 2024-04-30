@@ -1,14 +1,16 @@
-﻿using Api.Marketplace.Application.DTOs;
+﻿using System.Text.Json.Serialization;
+using Api.Marketplace.Application.DTOs;
 
 namespace Api.Marketplace.Application.Workflows.Listings.GetListingsById
 {
     public class GetListingByIdResponse
     {
-        public ListingDto? Listing { get; set; }
+        [JsonPropertyName(nameof(Entry))]
+        public ListingCityReviewDto? Entry { get; set; }
 
-        public GetListingByIdResponse(ListingDto? listing)
+        public GetListingByIdResponse(ListingCityReviewDto? entry)
         {
-            Listing = listing;
+            Entry = entry;
         }
     }
 }

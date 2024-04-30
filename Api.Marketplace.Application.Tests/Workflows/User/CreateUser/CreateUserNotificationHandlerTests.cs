@@ -16,13 +16,13 @@ public class CreateUserNotificationHandlerTests : WorkflowBaseTests
     [SetUp]
     public void Setup()
     {
-        _handler = new CreateUserNotificationHandler(
+        _handler = new CreateUserInDbHandler(
             Context,
-            Substitute.For<ILogger<CreateUserNotificationHandler>>()
+            Substitute.For<ILogger<CreateUserInDbHandler>>()
         );
     }
 
-    private CreateUserNotificationHandler _handler;
+    private CreateUserInDbHandler _handler;
 
     private const string DemoExternalId = "auth|007";
 
@@ -30,7 +30,7 @@ public class CreateUserNotificationHandlerTests : WorkflowBaseTests
     public async Task CreateUserResponse_WhenRequestIsValid_SavesUserInDb()
     {
         // Arrange
-        var notification = new CreateUserNotification(DemoExternalId);
+        var notification = new CreateUserInDbNotification(DemoExternalId);
 
         // Act
         await _handler.Handle(notification, CancellationToken.None);

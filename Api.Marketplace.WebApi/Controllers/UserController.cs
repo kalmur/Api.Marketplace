@@ -13,17 +13,11 @@ namespace Api.Marketplace.WebApi.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly ILogger<UserController> _logger;
     private readonly IIdentityProviderService _identityService;
     private readonly IMediator _mediator;
 
-    public UserController
-    (
-        ILogger<UserController> logger,
-        IIdentityProviderService identityService,
-        IMediator mediator)
+    public UserController(IIdentityProviderService identityService, IMediator mediator)
     {
-        _logger = logger;
         _identityService = identityService;
         _mediator = mediator;
     }
@@ -34,7 +28,7 @@ public class UserController : ControllerBase
     {
         var result = await GetAuthUserOrCreate(createUserDto);
 
-        await _mediator.Publish(new CreateUserNotification(result.Item.ProviderSubjectId));
+        await _mediator.Publish(new CreateUserInDbNotification(result.Item.ProviderSubjectId));
 
         return !result.Succeeded
             ? StatusCode((int)result.StatusCode, result.Message)
@@ -109,7 +103,7 @@ public class UserController : ControllerBase
             await UpdateUser(identityProviderUser);
 
             var externalProviderId = identityProviderUser.Item.ProviderSubjectId;
-            await _mediator.Publish(new CreateUserNotification(externalProviderId));
+            await _mediator.Publish(new CreateUserInDbNotification(externalProviderId));
         }
 
         return identityProviderUser;

@@ -1,4 +1,5 @@
-﻿using Api.Marketplace.Application.Extensions;
+﻿using Api.Marketplace.Application.DTOs;
+using Api.Marketplace.Application.Extensions;
 using Api.Marketplace.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,25 @@ namespace Api.Marketplace.Application.Workflows.Listings.GetListingsById
 
         public async Task<GetListingByIdResponse> Handle(GetListingByIdRequest request, CancellationToken cancellationToken)
         {
-            var listing = await _context.Listings.FirstOrDefaultAsync(x => x.ListingId == request.Id, cancellationToken);
+            var listing = await _context.Listings
+                .Include(x => x.City)
+                .Include(x => x.Reviews)
+                .FirstOrDefaultAsync(x => x.ListingId == request.Id, cancellationToken);
+
+            if (listing is null)
+            {
+                return new GetListingByIdResponse(null);
+            }
+
+            var listingWithCityAndReview = new ListingCityReviewDto
+            {
+                Listing = listing.ToDto(),
+                City = listing.City.ToDto(),
+                Reviews = listing.Reviews.ToDto()
+            };
 
             return listing is not null 
-                ? new GetListingByIdResponse(listing.ToDto()) 
+                ? new GetListingByIdResponse(listingWithCityAndReview) 
                 : new GetListingByIdResponse(null);
         }
     }

@@ -1,0 +1,38 @@
+version: '3.4'
+
+name: api-marketplace
+
+services:
+  marketplaceDb:
+    container_name: marketplaceDb
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    networks:
+      - marketplace-bridge
+    ports:
+      - "8002:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=PassedTheWord123
+
+  api.marketplace.webapi:
+    container_name: api-marketplace-webapp
+    image: ${DOCKER_REGISTRY-}apimarketplacewebapi
+    restart: always
+    build:
+      context: .
+      dockerfile: Api.Marketplace.WebApi/Dockerfile
+    depends_on:
+      - marketplaceDb
+    networks:
+      - marketplace-bridge
+    ports:
+      - "8001:80"
+    environment:
+      ConnectionStrings_Default: "Server=marketplace-db;Database=Api_Marketplace;User Id=SA;Password=PassedTheWord123;TrustServerCertificate=True;Connection Timeout=30;"
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+networks:
+  marketplace-bridge:
+    name: marketplace-bridge
+    driver: bridge

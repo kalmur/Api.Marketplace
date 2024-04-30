@@ -9,4 +9,6 @@ public class TableNames
     internal const string User = nameof(User);
 
     internal const string Reviews = nameof(Reviews);
+
+    internal const string Photos = nameof(Photos);
 }

@@ -54,5 +54,11 @@ public class ListingEntityConfiguration : IEntityTypeConfiguration<Listing>
             .WithOne(x => x.Listing)
             .HasForeignKey(x => x.ListingId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasMany(x => x.Photos)
+            .WithOne(x => x.Listing)
+            .HasForeignKey(x => x.ListingId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

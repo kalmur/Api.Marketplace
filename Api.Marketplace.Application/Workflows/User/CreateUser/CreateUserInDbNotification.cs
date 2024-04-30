@@ -2,9 +2,9 @@
 
 namespace Api.Marketplace.Application.Workflows.User.CreateUser;
 
-public class CreateUserNotification : INotification
+public class CreateUserInDbNotification : INotification
 {
-    public CreateUserNotification(string externalProviderId)
+    public CreateUserInDbNotification(string externalProviderId)
     {
         ExternalProviderId = externalProviderId;
     }

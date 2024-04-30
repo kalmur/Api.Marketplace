@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Marketplace.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240426090729_InitialMigration")]
+    [Migration("20240430081228_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -112,6 +112,37 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.ToTable("Listings", (string)null);
                 });
 
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Photo", b =>
+                {
+                    b.Property<int>("PhotoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PhotoId"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PhotoId");
+
+                    b.HasIndex("ListingId");
+
+                    b.ToTable("Photos", (string)null);
+                });
+
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.Review", b =>
                 {
                     b.Property<int>("ReviewId")
@@ -185,6 +216,17 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Api.Marketplace.Domain.Entities.Photo", b =>
+                {
+                    b.HasOne("Api.Marketplace.Domain.Entities.Listing", "Listing")
+                        .WithMany("Photos")
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Listing");
+                });
+
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.Review", b =>
                 {
                     b.HasOne("Api.Marketplace.Domain.Entities.Listing", "Listing")
@@ -211,6 +253,8 @@ namespace Api.Marketplace.Persistence.Migrations
 
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>
                 {
+                    b.Navigation("Photos");
+
                     b.Navigation("Reviews");
                 });
 

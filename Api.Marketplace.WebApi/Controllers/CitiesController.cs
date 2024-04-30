@@ -1,4 +1,5 @@
-﻿using Api.Marketplace.Application.Workflows.Cities.CreateCities;
+﻿using Api.Marketplace.Application.DTOs;
+using Api.Marketplace.Application.Workflows.Cities.CreateCities;
 using Api.Marketplace.WebApi.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +19,12 @@ public class CitiesController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateCityResponseDto))]
-    public async Task<IActionResult> CreateCitiesAsync([FromBody] CreateCitiesRequest request)
+    public async Task<IActionResult> CreateCitiesAsync([FromBody] CityDto dto)
     {
-        var city = await _mediator.Send(
-            new CreateCitiesRequest(
-                request.Name,
-                request.Country)
-        );
+        var request = new CreateCitiesRequest(dto.Name, dto.Country);
 
-        return Created("/api/cities", city.CityId);
+        var response = await _mediator.Send(request);
+
+        return Created("/api/cities", response.CityId);
     }
 }

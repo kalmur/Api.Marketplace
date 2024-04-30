@@ -1,6 +1,7 @@
-﻿using Api.Marketplace.Application.Workflows.Reviews.CreateReview;
+﻿using Api.Marketplace.Application.DTOs;
+using Api.Marketplace.Application.Workflows.Reviews.CreateReview;
+using Api.Marketplace.Application.Workflows.Reviews.UpdateReview;
 using Api.Marketplace.WebApi.DTOs;
-using Api.Marketplace.WebApi.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,25 +12,32 @@ namespace Api.Marketplace.WebApi.Controllers;
 public class ReviewsController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IHttpResponse _httpResponse;
-    private readonly ILogger<ReviewsController> _logger;
 
-    public ReviewsController(IMediator mediator, IHttpResponse httpResponse, ILogger<ReviewsController> logger)
+    public ReviewsController(IMediator mediator)
     {
         _mediator = mediator;
-        _httpResponse = httpResponse;
-        _logger = logger;
     }
 
     [HttpPost]
     [Route("")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> CreateReview([FromBody] CreateReviewDto dto)
     {
         var notification = new CreateReviewNotification(dto.UserId, dto.ListingId, dto.Rating, dto.Comment);
 
         await _mediator.Publish(notification);
         
-        _logger.LogInformation("Review created");
+        return NoContent();
+    }
+
+    [HttpPut]
+    [Route("")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> UpdateReview([FromBody] UpdateReviewDto dto)
+    {
+        var notification = new UpdateReviewNotification(dto.ReviewId, dto.Rating, dto.Comment);
+
+        await _mediator.Publish(notification);
 
         return NoContent();
     }

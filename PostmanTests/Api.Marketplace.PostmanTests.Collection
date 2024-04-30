@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "d41868c0-c3a2-4517-aadb-7b3e7a9ca0e5",
+		"name": "Api.Marketplace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26611150"
+	},
+	"item": [
+		{
+			"name": "City",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Edinburgh\",\r\n    \"country\": \"Scotland\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/cities",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"cities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Cena\",\r\n    \"email\": \"jcena@gmail.com\",\r\n    \"phoneNumber\": \"07769593939\",\r\n    \"password\": \"jaycena\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/user",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7031/api/user/auth0|6552325b4b4701a8508d0bfc",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"user",
+								"auth0|6552325b4b4701a8508d0bfc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUserById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Weeboy\",\r\n    \"email\": \"jcena@gmail.com\",\r\n    \"phoneNumber\": \"07769593939\",\r\n    \"password\": \"jaycena\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/user/auth0|6552325b4b4701a8508d0bfc",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"user",
+								"auth0|6552325b4b4701a8508d0bfc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listing",
+			"item": [
+				{
+					"name": "GetByType",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"cityId\": 1,\r\n    \"sellLease\": 1,\r\n    \"name\": \"MSI GE76 Raider\",\r\n    \"category\": \"Laptop\",\r\n    \"description\": \"Gaming laptop\",\r\n    \"price\": 2100,\r\n    \"address\": \"1 Tanfield Rd\",\r\n    \"postCode\": \"EH48 2TJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/listing/type/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"listing",
+								"type",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByExternalProviderId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"cityId\": 1,\r\n    \"sellLease\": 1,\r\n    \"name\": \"MSI GE76 Raider\",\r\n    \"category\": \"Laptop\",\r\n    \"description\": \"Gaming laptop\",\r\n    \"price\": 2100,\r\n    \"address\": \"1 Tanfield Rd\",\r\n    \"postCode\": \"EH48 2TJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/listing/type/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"listing",
+								"type",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"cityId\": 1,\r\n    \"sellLease\": 1,\r\n    \"name\": \"MSI GE76 Raider\",\r\n    \"category\": \"Laptop\",\r\n    \"description\": \"Gaming laptop\",\r\n    \"price\": 2100,\r\n    \"address\": \"1 Tanfield Rd\",\r\n    \"postCode\": \"EH48 2TJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/listing/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"listing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"cityId\": 1,\r\n    \"sellLease\": 1,\r\n    \"name\": \"MSI GE76 Raider\",\r\n    \"category\": \"Laptop\",\r\n    \"description\": \"Gaming laptop\",\r\n    \"price\": 2100,\r\n    \"address\": \"1 Tanfield Rd\",\r\n    \"postCode\": \"EH48 2TJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/listings",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"listings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ListingId\": 1,\r\n    \"SellLease\": 0,\r\n    \"Name\": \"MSI GE74\",\r\n    \"Category\": \"Laptops\",\r\n    \"Description\": \"Gamers\",\r\n    \"Price\": 2200,\r\n    \"Address\": \"15 Bruce road\",\r\n    \"PostCode\": \"EH48 2TJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/listing/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"listing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"cityId\": 1,\r\n    \"sellLease\": 1,\r\n    \"name\": \"MSI GE76 Raider\",\r\n    \"category\": \"Laptop\",\r\n    \"description\": \"Gaming laptop\",\r\n    \"price\": 2100,\r\n    \"address\": \"1 Tanfield Rd\",\r\n    \"postCode\": \"EH48 2TJ\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/listing/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"listing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"listingId\": 1,\r\n    \"rating\": 5,\r\n    \"comment\": \"Testing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/reviews",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reviewId\": 1,\r\n    \"rating\": 2,\r\n    \"comment\": \"TestingUpdate\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/reviews",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Photos",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"listingId\": 1,\r\n    \"url\": \"test\",\r\n    \"isPrimary\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/photos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"photos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"photoId\": 1,\r\n    \"listingId\": 1,\r\n    \"url\": \"test\",\r\n    \"isPrimary\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7031/api/photos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7031",
+							"path": [
+								"api",
+								"photos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

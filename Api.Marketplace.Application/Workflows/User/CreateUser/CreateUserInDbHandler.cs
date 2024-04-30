@@ -6,18 +6,18 @@ using ApiUser = Api.Marketplace.Domain.Entities.User;
 
 namespace Api.Marketplace.Application.Workflows.User.CreateUser;
 
-public class CreateUserNotificationHandler : INotificationHandler<CreateUserNotification>
+public class CreateUserInDbHandler : INotificationHandler<CreateUserInDbNotification>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ILogger<CreateUserNotificationHandler> _logger;
+    private readonly ILogger<CreateUserInDbHandler> _logger;
 
-    public CreateUserNotificationHandler(IApplicationDbContext context, ILogger<CreateUserNotificationHandler> logger)
+    public CreateUserInDbHandler(IApplicationDbContext context, ILogger<CreateUserInDbHandler> logger)
     {
         _context = context;
         _logger = logger;
     }
 
-    public async Task Handle(CreateUserNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(CreateUserInDbNotification notification, CancellationToken cancellationToken)
     {
         _context.Users.Add(new ApiUser
         {
