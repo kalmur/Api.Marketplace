@@ -7,8 +7,7 @@ public class CreateListingDto
     [JsonPropertyName("UserId")]
     public int UserId { get; set; }
 
-    [JsonPropertyName("CityId")]
-    public int CityId { get; set; }
+ 
 
     [JsonPropertyName("SellLease")]
     public int SellLease { get; set; }
@@ -27,7 +26,13 @@ public class CreateListingDto
 
     [JsonPropertyName("Address")]
     public string Address { get; set; }
-    
+
+    [JsonPropertyName("City")]
+    public string City { get; set; }
+
+    [JsonPropertyName("Country")]
+    public string Country { get; set; }
+
     [JsonPropertyName("PostCode")]
     public string PostCode { get; set; }
     

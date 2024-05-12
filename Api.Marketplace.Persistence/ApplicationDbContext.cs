@@ -10,8 +10,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
-    public DbSet<City> Cities => Set<City>();
-
     public DbSet<Listing> Listings => Set<Listing>();
 
     public DbSet<User> Users => Set<User>();

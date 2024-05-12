@@ -11,15 +11,15 @@ namespace Api.Marketplace.Application.Extensions
             return new Listing
             {
                 UserId = request.UserId,
-                CityId = request.CityId,
                 SellLease = request.SellLease,
                 Name = request.Name,
                 Category = request.Category,
-                Description = request.Description ?? string.Empty,
                 Price = request.Price,
+                Description = request.Description ?? string.Empty,
                 Address = request.Address,
-                PostCode = request.PostCode,
-                AvailableFrom = request.AvailableFrom ?? DateTime.Now
+                City = request.City,
+                Country = request.Country,
+                PostCode = request.PostCode
             };
         }
 
@@ -51,7 +51,6 @@ namespace Api.Marketplace.Application.Extensions
                 Name = listing.Name,
                 Category = listing.Category,
                 Price = listing.Price,
-                CityId = listing.CityId
             };
         }
 
@@ -64,19 +63,7 @@ namespace Api.Marketplace.Application.Extensions
                 Name = listing.Name,
                 Category = listing.Category,
                 Price = listing.Price,
-                CityId = listing.CityId
-            })
-                .ToList();
-        }
-
-        public static CityDto ToDto(this City city)
-        {
-            return new CityDto
-            {
-                CityId = city.CityId,
-                Country = city.Country,
-                Name = city.Name
-            };
+            }).ToList();
         }
 
         public static IReadOnlyCollection<ReviewDto> ToDto(this IReadOnlyCollection<Review> reviews)

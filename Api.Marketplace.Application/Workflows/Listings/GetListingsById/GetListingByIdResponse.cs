@@ -6,9 +6,9 @@ namespace Api.Marketplace.Application.Workflows.Listings.GetListingsById
     public class GetListingByIdResponse
     {
         [JsonPropertyName(nameof(Entry))]
-        public ListingCityReviewDto? Entry { get; set; }
+        public ListingDto? Entry { get; set; }
 
-        public GetListingByIdResponse(ListingCityReviewDto? entry)
+        public GetListingByIdResponse(ListingDto? entry)
         {
             Entry = entry;
         }

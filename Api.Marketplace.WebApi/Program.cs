@@ -24,19 +24,26 @@ builder.Services.AddSwaggerGen(b =>
 
 builder.Services
     .AddApplication(builder.Configuration)
-    .AddPersistence(builder.Configuration);
+    .AddPersistence(builder.Configuration)
+    .AddCors();
 
-builder.Services.AddScoped<IHttpResponse, HttpResponse>();
+builder.Services
+    .AddScoped<IHttpResponse, HttpResponse>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-//if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseRouting();
+
+app.UseHsts();
+
 app.UseHttpsRedirection();
+
+app.UseCors(m => m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseAuthorization();
 

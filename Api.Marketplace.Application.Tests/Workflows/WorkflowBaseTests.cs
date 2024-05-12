@@ -14,8 +14,8 @@ public class WorkflowBaseTests
     private ApplicationDbContext _context;
 
     protected IApplicationDbContext Context;
-    protected City DemoCity1;
-    protected City DemoCity2;
+    //protected City DemoCity1;
+    //protected City DemoCity2;
     protected Listing DemoListing1;
     protected Listing DemoListing2;
 
@@ -32,7 +32,6 @@ public class WorkflowBaseTests
         _context = new ApplicationDbContext(dbOptions);
         _context.Database.EnsureCreated();
 
-        AddCities();
         AddListings();
 
         _context.SaveChanges();
@@ -53,7 +52,7 @@ public class WorkflowBaseTests
     {
         try
         {
-            RemoveEntries<City>();
+            //RemoveEntries<City>();
             RemoveEntries<Listing>();
             RemoveEntries<Domain.Entities.User>();
             _context.SaveChangesAsync().Wait();
@@ -78,37 +77,12 @@ public class WorkflowBaseTests
         _context.RemoveRange(entries);
     }
 
-    private void AddCities()
-    {
-        DemoCity1 = new City()
-        {
-            CityId = 1,
-            Name = "Szeged",
-            Country = "Hungary",
-            CreatedOn = DateTime.Now,
-            UpdatedOn = DateTime.Now.AddHours(1)
-        };
-
-        DemoCity2 = new City()
-        {
-            CityId = 2,
-            Name = "Budapest",
-            Country = "Hungary",
-            CreatedOn = DateTime.Now,
-            UpdatedOn = DateTime.Now.AddHours(1)
-        };
-
-        AddEntry(DemoCity1);
-        AddEntry(DemoCity2);
-    }
-
     private void AddListings()
     {
         DemoListing1 = new Listing()
         {
             ListingId = 1,
             UserId = 1,
-            CityId = 1,
             SellLease = 1,
             Name = "MSI GE75",
             Category = "Laptop",

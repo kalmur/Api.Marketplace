@@ -30,8 +30,8 @@ public class ListingsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CreateListingResponseDto))]
     public async Task<IActionResult> CreateListing([FromBody] CreateListingDto dto)
     {
-        var request = new CreateListingRequest(dto.UserId, dto.CityId, dto.SellLease, 
-            dto.Name, dto.Category, dto.Description, dto.Price, dto.Address, dto.PostCode);
+        var request = new CreateListingRequest(dto.UserId, dto.SellLease, 
+            dto.Name, dto.Category, dto.Description, dto.Price, dto.Address, dto.City, dto.Country, dto.PostCode);
 
         var response = await _mediator.Send(request);
 

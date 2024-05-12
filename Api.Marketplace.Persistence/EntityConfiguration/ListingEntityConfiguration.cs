@@ -27,6 +27,10 @@ public class ListingEntityConfiguration : IEntityTypeConfiguration<Listing>
 
         builder.Property(x => x.Address);
 
+        builder.Property(x => x.City);
+
+        builder.Property(x => x.Country);
+
         builder.Property(x => x.PostCode);
 
         builder.Property(x => x.AvailableFrom);
@@ -40,13 +44,7 @@ public class ListingEntityConfiguration : IEntityTypeConfiguration<Listing>
         builder
             .HasOne(x => x.User)
             .WithMany(x => x.Listings)
-            .HasForeignKey(x => x.CityId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder
-            .HasOne(x => x.City)
-            .WithMany(x => x.Listings)
-            .HasForeignKey(x => x.CityId)
+            .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder

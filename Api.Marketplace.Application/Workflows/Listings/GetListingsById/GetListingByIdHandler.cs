@@ -28,16 +28,7 @@ namespace Api.Marketplace.Application.Workflows.Listings.GetListingsById
                 return new GetListingByIdResponse(null);
             }
 
-            var listingWithCityAndReview = new ListingCityReviewDto
-            {
-                Listing = listing.ToDto(),
-                City = listing.City.ToDto(),
-                Reviews = listing.Reviews.ToDto()
-            };
-
-            return listing is not null 
-                ? new GetListingByIdResponse(listingWithCityAndReview) 
-                : new GetListingByIdResponse(null);
+            return new GetListingByIdResponse(listing.ToDto());
         }
     }
 }

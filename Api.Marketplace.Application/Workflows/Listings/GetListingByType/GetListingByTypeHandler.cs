@@ -24,9 +24,9 @@ namespace Api.Marketplace.Application.Workflows.Listings.GetListingByType
                 .Where(x => x.SellLease == request.SellLease)
                 .ToListAsync(cancellationToken);
 
-            return listings.Any() 
-                ? new GetListingByTypeResponse(null) 
-                : new GetListingByTypeResponse(listings.ToDto());
+            return listings.Any()
+                ? new GetListingByTypeResponse(listings.ToDto())
+                : new GetListingByTypeResponse(null);
         }
     }
 }

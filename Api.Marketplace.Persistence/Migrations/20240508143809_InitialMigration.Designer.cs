@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Marketplace.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240430081228_InitialMigration")]
+    [Migration("20240508143809_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -24,35 +24,6 @@ namespace Api.Marketplace.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Api.Marketplace.Domain.Entities.City", b =>
-                {
-                    b.Property<int>("CityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CityId");
-
-                    b.ToTable("Cities", (string)null);
-                });
 
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>
                 {
@@ -73,8 +44,13 @@ namespace Api.Marketplace.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -104,8 +80,6 @@ namespace Api.Marketplace.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ListingId");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("UserId");
 
@@ -199,19 +173,11 @@ namespace Api.Marketplace.Persistence.Migrations
 
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>
                 {
-                    b.HasOne("Api.Marketplace.Domain.Entities.City", "City")
-                        .WithMany("Listings")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Api.Marketplace.Domain.Entities.User", "User")
                         .WithMany("Listings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
 
                     b.Navigation("User");
                 });
@@ -244,11 +210,6 @@ namespace Api.Marketplace.Persistence.Migrations
                     b.Navigation("Listing");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Api.Marketplace.Domain.Entities.City", b =>
-                {
-                    b.Navigation("Listings");
                 });
 
             modelBuilder.Entity("Api.Marketplace.Domain.Entities.Listing", b =>

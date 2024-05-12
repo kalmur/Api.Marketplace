@@ -53,27 +53,27 @@ public abstract class CustomWebApplicationFactory : WebApplicationFactory<Progra
 
     private static void SeedData(ApplicationDbContext context)
     {
-        var cities = new List<City>
-        {
-            new()
-            {
-                CityId = 1,
-                Name = "Szeged",
-                Country = "Hungary",
-                CreatedOn = DateTime.Now,
-                UpdatedOn = DateTime.Now.AddHours(1)
-            },
-            new()
-            {
-                CityId = 2,
-                Name = "Budapest",
-                Country = "Hungary",
-                CreatedOn = DateTime.Now,
-                UpdatedOn = DateTime.Now.AddHours(1)
-            }
-        };
+        //var cities = new List<City>
+        //{
+        //    new()
+        //    {
+        //        CityId = 1,
+        //        Name = "Szeged",
+        //        Country = "Hungary",
+        //        CreatedOn = DateTime.Now,
+        //        UpdatedOn = DateTime.Now.AddHours(1)
+        //    },
+        //    new()
+        //    {
+        //        CityId = 2,
+        //        Name = "Budapest",
+        //        Country = "Hungary",
+        //        CreatedOn = DateTime.Now,
+        //        UpdatedOn = DateTime.Now.AddHours(1)
+        //    }
+        //};
 
-        context.Cities.AddRange(cities);
+        //context.Cities.AddRange(cities);
         context.SaveChangesAsync();
     }
 }
